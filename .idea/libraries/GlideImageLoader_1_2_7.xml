@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="GlideImageLoader-1.2.7">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/022d4b244220e3229412b8f4cc2f6d19e8b565ca/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/022d4b244220e3229412b8f4cc2f6d19e8b565ca/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.piasy/GlideImageLoader/1.2.7/40e58cbbe60477de9b308f24d71c22a3cd3bc956/GlideImageLoader-1.2.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

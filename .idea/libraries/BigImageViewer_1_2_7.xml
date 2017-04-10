@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="BigImageViewer-1.2.7">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/d24ef0fa5f1c4394a397a17c85a5a643370021f3/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/d24ef0fa5f1c4394a397a17c85a5a643370021f3/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.piasy/BigImageViewer/1.2.7/9c12df6346e665d9fb601b90232c29c4e8b909d1/BigImageViewer-1.2.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

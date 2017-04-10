@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="fresco-processors-2.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/4853d6f02b9899180991a1b1417c02d620dc8f1d/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/4853d6f02b9899180991a1b1417c02d620dc8f1d/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/jp.wasabeef/fresco-processors/2.0.0/68048d76cc11fea1009afedc1bb3a0de216fed89/fresco-processors-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

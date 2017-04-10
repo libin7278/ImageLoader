@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="ProgressPieIndicator-1.2.7">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/989bef163504ae953caa90539666dd978af87757/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/989bef163504ae953caa90539666dd978af87757/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.piasy/ProgressPieIndicator/1.2.7/f68eb8719a1f0f27e70caf7c3ed78baba9fb8a7c/ProgressPieIndicator-1.2.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
