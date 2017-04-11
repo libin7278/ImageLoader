@@ -57,4 +57,6 @@ dependencies {
 
 // progress pie indicator
     compile 'com.github.piasy:ProgressPieIndicator:1.2.7'
+
+    compile 'com.orhanobut:logger:1.15'
 }

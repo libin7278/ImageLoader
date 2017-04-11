@@ -406,6 +406,12 @@ public class SingleConfig {
             return this;
         }
 
+        /**
+         * 占位图
+         * @param placeHolderResId
+         * @param reuseable
+         * @return
+         */
         public ConfigBuilder placeHolder(int placeHolderResId,boolean reuseable){
             this.placeHolderResId = placeHolderResId;
             this.reuseable = reuseable;
@@ -431,8 +437,6 @@ public class SingleConfig {
             return this;
         }
 
-
-
         /**
          * 形状为圆角矩形时的圆角半径
          * @param rectRoundRadius
@@ -442,7 +446,6 @@ public class SingleConfig {
             this.rectRoundRadius = MyUtil.dip2px(rectRoundRadius);
             this.shapeMode = ShapeMode.RECT_ROUND;
             this.roundOverlayColor  = overlayColorWhenGif;
-
             return this;
         }
 

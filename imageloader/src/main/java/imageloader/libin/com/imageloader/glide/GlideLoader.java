@@ -35,6 +35,8 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by doudou on 2017/4/10.
+ * 参考:
+ * https://mrfu.me/2016/02/28/Glide_Series_Roundup/
  */
 
 public class GlideLoader implements ILoader {

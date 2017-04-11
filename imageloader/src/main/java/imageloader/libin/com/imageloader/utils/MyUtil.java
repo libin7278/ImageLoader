@@ -39,7 +39,7 @@ import okhttp3.OkHttpClient;
  */
 
 public class MyUtil {
-    public static SingleConfig.BitmapListener getBitmapListenerProxy(final SingleConfig.BitmapListener listener){
+    public static SingleConfig.BitmapListener getBitmapListenerProxy(final SingleConfig.BitmapListener listener) {
         return (SingleConfig.BitmapListener) Proxy.newProxyInstance(SingleConfig.class.getClassLoader(),
                 listener.getClass().getInterfaces(), new InvocationHandler() {
                     @Override
@@ -49,7 +49,7 @@ public class MyUtil {
                             @Override
                             public void run() {
                                 try {
-                                    Object object=  method.invoke(listener,args);
+                                    Object object = method.invoke(listener, args);
                                 } catch (IllegalAccessException e) {
                                     e.printStackTrace();
                                 } catch (InvocationTargetException e) {
@@ -57,17 +57,13 @@ public class MyUtil {
                                 }
                             }
                         });
-
-
-
                         return null;
                     }
                 });
-
     }
 
 
-    public static void runOnUIThread(Runnable runnable){
+    public static void runOnUIThread(Runnable runnable) {
         GlobalConfig.getMainHandler().post(runnable);
     }
 
@@ -76,62 +72,47 @@ public class MyUtil {
         BigImageView bigImageView = (BigImageView) config.getTarget();
         //bigImageView.setProgressIndicator(new ProgressPieIndicator1());
 
-        if(!TextUtils.isEmpty(config.getUrl()) && !GlobalConfig.getLoader().isCached(config.getUrl() )){
+        if (!TextUtils.isEmpty(config.getUrl()) && !GlobalConfig.getLoader().isCached(config.getUrl())) {
             bigImageView.setProgressIndicator(new ProgressPieIndicator1());
-        }else {
+        } else {
             bigImageView.setProgressIndicator(null);
-            int count =  bigImageView.getChildCount();
+            int count = bigImageView.getChildCount();
             for (int i = 0; i < count; i++) {
                 View child = bigImageView.getChildAt(i);
-                if(child.findViewById(R.id.progressBar00)!=null){
+                if (child.findViewById(R.id.progressBar00) != null) {
                     child.setVisibility(View.INVISIBLE);
                 }
             }
         }
         bigImageView.showImage(buildUriByType(config));
-
-
-
-        //bigimageview对缩略图的支持并不好
-       /* if(TextUtils.isEmpty(config.getThumbnailUrl())){
-            if(!TextUtils.isEmpty(config.getUrl()) && !isCached(config.getUrl() )){
-                bigImageView.setProgressIndicator(new ProgressPieIndicator1());
-            }
-            bigImageView.showImage(buildUriByType(config));
-        }else {
-            bigImageView.showImage(Uri.parse(config.getThumbnailUrl()),buildUriByType(config));
-        }*/
     }
 
 
-
-
-    public static boolean shouldSetPlaceHolder(SingleConfig config){
-        if(config.isReuseable()){
+    public static boolean shouldSetPlaceHolder(SingleConfig config) {
+        if (config.isReuseable()) {
             return true;
         }
-        if(config.getPlaceHolderResId()<=0 ) {
+        if (config.getPlaceHolderResId() <= 0) {
             return false;
         }
 
-        if(config.getResId()>0 || !TextUtils.isEmpty(config.getFilePath()) || GlobalConfig.getLoader().isCached(config.getUrl())){
+        if (config.getResId() > 0 || !TextUtils.isEmpty(config.getFilePath()) || GlobalConfig.getLoader().isCached(config.getUrl())) {
             return false;
-        }else {//只有在图片源为网络图片,并且图片没有缓存到本地时,才给显示placeholder
+        } else {//只有在图片源为网络图片,并且图片没有缓存到本地时,才给显示placeholder
             return true;
         }
     }
 
 
-    public static int dip2px(float dipValue){
+    public static int dip2px(float dipValue) {
         final float scale = GlobalConfig.context.getResources().getDisplayMetrics().density;
-        return (int)(dipValue * scale + 0.5f);
+        return (int) (dipValue * scale + 0.5f);
     }
-
-
 
 
     /**
      * 等比压缩（宽高等比缩放）
+     *
      * @param bitmap
      * @param needRecycle
      * @param targetWidth
@@ -156,8 +137,7 @@ public class MyUtil {
     }
 
 
-
-    public static String getRealType(File file){
+    public static String getRealType(File file) {
         FileInputStream is = null;
         try {
             is = new FileInputStream(file);
@@ -168,30 +148,29 @@ public class MyUtil {
                 e.printStackTrace();
                 return "";
             }
-            String type =  bytesToHexString(b).toUpperCase();
-            if(type.contains("FFD8FF")){
+            String type = bytesToHexString(b).toUpperCase();
+            if (type.contains("FFD8FF")) {
                 return "jpg";
-            }else if(type.contains("89504E47")){
+            } else if (type.contains("89504E47")) {
                 return "png";
-            }else if(type.contains("47494638")){
+            } else if (type.contains("47494638")) {
                 return "gif";
-            }else if(type.contains("49492A00")){
+            } else if (type.contains("49492A00")) {
                 return "tif";
-            }else if(type.contains("424D")){
+            } else if (type.contains("424D")) {
                 return "bmp";
             }
             return type;
         } catch (Exception e) {
             e.printStackTrace();
             return "";
-        }finally {
+        } finally {
             try {
                 is.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
 
 
     }
@@ -215,45 +194,44 @@ public class MyUtil {
 
     /**
      * 类型	SCHEME	示例
-     远程图片	http://, https://	HttpURLConnection 或者参考 使用其他网络加载方案
-     本地文件	file://	FileInputStream
-     Content provider	content://	ContentResolver
-     asset目录下的资源	asset://	AssetManager
-     res目录下的资源	res://	Resources.openRawResource
-     Uri中指定图片数据	data:mime/type;base64,	数据类型必须符合 rfc2397规定 (仅支持 UTF-8)
+     * 远程图片	http://, https://	HttpURLConnection 或者参考 使用其他网络加载方案
+     * 本地文件	file://	FileInputStream
+     * Content provider	content://	ContentResolver
+     * asset目录下的资源	asset://	AssetManager
+     * res目录下的资源	res://	Resources.openRawResource
+     * Uri中指定图片数据	data:mime/type;base64,	数据类型必须符合 rfc2397规定 (仅支持 UTF-8)
+     *
      * @param config
      * @return
      */
     public static Uri buildUriByType(SingleConfig config) {
 
-        Log.e("builduri:","url: "+config.getUrl()+" ---filepath:"+config.getFilePath()+ "--content:"+config.getContentProvider());
+        Log.e("builduri:", "url: " + config.getUrl() + " ---filepath:" + config.getFilePath() + "--content:" + config.getContentProvider());
 
-        if(!TextUtils.isEmpty(config.getUrl())){
+        if (!TextUtils.isEmpty(config.getUrl())) {
             String url = MyUtil.appendUrl(config.getUrl());
             return Uri.parse(url);
         }
 
-        if(config.getResId() > 0){
+        if (config.getResId() > 0) {
             return Uri.parse("res://imageloader/" + config.getResId());
         }
 
-        if(!TextUtils.isEmpty(config.getFilePath())){
+        if (!TextUtils.isEmpty(config.getFilePath())) {
 
             File file = new File(config.getFilePath());
-            if(file.exists()){
+            if (file.exists()) {
                 return Uri.fromFile(file);
             }
         }
 
-        if(!TextUtils.isEmpty(config.getContentProvider())){
+        if (!TextUtils.isEmpty(config.getContentProvider())) {
             String content = config.getContentProvider();
-            if(!content.startsWith("content")){
-                content = "content://"+content;
+            if (!content.startsWith("content")) {
+                content = "content://" + content;
             }
             return Uri.parse(content);
         }
-
-
 
 
         return null;
@@ -262,13 +240,13 @@ public class MyUtil {
 
     public static String appendUrl(String url) {
         String newUrl = url;
-        if(TextUtils.isEmpty(newUrl)){
+        if (TextUtils.isEmpty(newUrl)) {
             return newUrl;
         }
-        boolean hasHost = url.contains("http:" ) || url.contains("https:" )  ;
-        if (!hasHost){
-            if(!TextUtils.isEmpty(GlobalConfig.baseUrl)){
-                newUrl = GlobalConfig.baseUrl+url;
+        boolean hasHost = url.contains("http:") || url.contains("https:");
+        if (!hasHost) {
+            if (!TextUtils.isEmpty(GlobalConfig.baseUrl)) {
+                newUrl = GlobalConfig.baseUrl + url;
             }
         }
 
@@ -276,16 +254,17 @@ public class MyUtil {
     }
 
 
-    public static OkHttpClient getClient(boolean ignoreCertificateVerify){
-        if(ignoreCertificateVerify){
+    public static OkHttpClient getClient(boolean ignoreCertificateVerify) {
+        if (ignoreCertificateVerify) {
             return getAllPassClient();
-        }else {
+        } else {
             return getNormalClient();
         }
     }
 
     /**
      * 不校验证书
+     *
      * @return
      */
     private static OkHttpClient getAllPassClient() {
@@ -338,7 +317,7 @@ public class MyUtil {
         return client;
     }
 
-    private static OkHttpClient getNormalClient(){
+    private static OkHttpClient getNormalClient() {
         OkHttpClient client = new OkHttpClient.Builder()
                 //.sslSocketFactory(sslContext.getSocketFactory())
                 //.hostnameVerifier(DO_NOT_VERIFY)

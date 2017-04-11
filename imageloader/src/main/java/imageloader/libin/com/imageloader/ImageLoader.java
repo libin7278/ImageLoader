@@ -28,7 +28,7 @@ public class ImageLoader {
     public static Context context;
 
     /**
-     * 初始化
+     * 初始化 默认使用fresco
      * @param context
      * @param cacheSizeInM 缓存文件夹最大多少
      */
@@ -36,6 +36,12 @@ public class ImageLoader {
         init(context,cacheSizeInM,true);
     }
 
+    /**
+     *
+     * @param context
+     * @param cacheSizeInM 缓存文件夹最大多少
+     * @param useFrescoOrGlide 为true时,底层使用fresco,false时使用glide
+     */
     public static void init(final Context context, int cacheSizeInM,boolean useFrescoOrGlide){
         ImageLoader.context = context;
         GlobalConfig.init(context,cacheSizeInM,useFrescoOrGlide);
@@ -67,8 +73,6 @@ public class ImageLoader {
         } else {
             new SingleConfig.ConfigBuilder(context).file(path).into(imageView);
         }
-
-
     }
 
 

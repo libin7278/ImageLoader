@@ -6,6 +6,7 @@ import com.facebook.imagepipeline.cache.ImageCacheStatsTracker;
 
 /**
  * Created by doudou on 2017/4/10.
+ * 作为 Cache 埋点工具，可以统计Cache的各种操作数据
  */
 public class MyImageCacheStatsTracker implements ImageCacheStatsTracker {
     @Override
