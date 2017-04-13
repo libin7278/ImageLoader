@@ -1,6 +1,8 @@
-package imageloader.libin.com.imageloader;
+package imageloader.libin.com.imageloaderdemo;
 
 import android.app.Application;
+
+import imageloader.libin.com.imageloader.ImageLoader;
 
 /**
  * Created by doudou on 2017/4/10.

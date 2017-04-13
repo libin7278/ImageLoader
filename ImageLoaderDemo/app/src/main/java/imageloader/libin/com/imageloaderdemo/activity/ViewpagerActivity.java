@@ -1,16 +1,17 @@
-package imageloader.libin.com.imageloader.Demo;
+package imageloader.libin.com.imageloaderdemo.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import imageloader.libin.com.imageloader.ImageLoader;
-import imageloader.libin.com.imageloader.R;
+import imageloader.libin.com.imageloaderdemo.R;
 
-public class ViewpagerActivity extends AppCompatActivity {
+
+public class ViewpagerActivity extends Activity {
     ViewPager viewPager;
 
     @Override

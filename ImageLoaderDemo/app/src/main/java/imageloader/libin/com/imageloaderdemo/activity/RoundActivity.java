@@ -1,11 +1,12 @@
-package imageloader.libin.com.imageloader.Demo;
+package imageloader.libin.com.imageloaderdemo.activity;
+
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import imageloader.libin.com.imageloader.ImageLoader;
-import imageloader.libin.com.imageloader.R;
+import imageloader.libin.com.imageloaderdemo.R;
 
 public class RoundActivity extends AppCompatActivity {
     ImageView iv_round;
