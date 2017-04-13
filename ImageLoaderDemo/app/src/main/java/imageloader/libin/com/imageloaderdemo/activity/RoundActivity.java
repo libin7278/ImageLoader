@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import imageloader.libin.com.imageloader.ImageLoader;
 import imageloader.libin.com.imageloaderdemo.R;
 
 public class RoundActivity extends AppCompatActivity {
-    ImageView iv_round;
+    SimpleDraweeView iv_round;
     ImageView iv_circle;
 
     @Override
@@ -17,7 +19,7 @@ public class RoundActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round);
 
-        iv_round = (ImageView) findViewById(R.id.iv_round);
+        iv_round = (SimpleDraweeView) findViewById(R.id.iv_round);
         iv_circle = (ImageView) findViewById(R.id.iv_circle);
 
         show();
@@ -31,10 +33,9 @@ public class RoundActivity extends AppCompatActivity {
                  .url("http://img.yxbao.com/news/image/201703/13/7bda462477.gif")
                 // .res(R.drawable.thegif)
                 .placeHolder(R.mipmap.ic_launcher,false)
-                .widthHeight(250, 150)
                 .rectRoundCorner(30, R.color.colorPrimary)
                 .blur(40)
-                .into(iv_circle);
+                .into(iv_round);
 
 
 //        ImageLoader.with(this)
