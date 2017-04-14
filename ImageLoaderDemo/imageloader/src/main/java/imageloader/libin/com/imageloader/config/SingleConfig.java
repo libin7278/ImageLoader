@@ -174,8 +174,6 @@ public class SingleConfig {
 
     private BitmapListener bitmapListener;
 
-
-
     /*public BigImageView getBigImageView() {
         return bigImageView;
     }*/
@@ -184,7 +182,6 @@ public class SingleConfig {
 
     private void show(){
         GlobalConfig.getLoader().request(this);
-
     }
 
 

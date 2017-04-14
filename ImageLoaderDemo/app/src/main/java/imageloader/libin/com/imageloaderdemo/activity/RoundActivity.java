@@ -32,9 +32,9 @@ public class RoundActivity extends AppCompatActivity {
                 //.url("https://pic1.zhimg.com/v2-7868c606d6ddddbdd56f0872e514925c_b.jpg")
                  .url("http://img.yxbao.com/news/image/201703/13/7bda462477.gif")
                 // .res(R.drawable.thegif)
-                .placeHolder(R.mipmap.ic_launcher,false)
-                .rectRoundCorner(30, R.color.colorPrimary)
-                .blur(40)
+//                .placeHolder(R.mipmap.ic_launcher,false)
+//                .rectRoundCorner(30, R.color.colorPrimary)
+//                .blur(40)
                 .into(iv_round);
 
 

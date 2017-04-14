@@ -14,7 +14,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        ImageLoader.init(getApplicationContext(), 40,true);
+        ImageLoader.init(getApplicationContext(), 240,true);
 
     }
 

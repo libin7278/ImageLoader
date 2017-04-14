@@ -1,5 +1,6 @@
 package imageloader.libin.com.imageloader.fresco;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -68,7 +69,7 @@ public class FrescoLoader implements ILoader {
     public void init(final Context context, int cacheSizeInM) {
         DiskCacheConfig diskCacheConfig = DiskCacheConfig.newBuilder(context)
                 .setMaxCacheSize(cacheSizeInM * 1024 * 1024)
-                .setBaseDirectoryName(GlobalConfig.PHOTO_FRESCO)
+                //.setBaseDirectoryName(GlobalConfig.PHOTO_FRESCO)
                 .setBaseDirectoryPathSupplier(new Supplier<File>() {
                     @Override
                     public File get() {
@@ -87,11 +88,12 @@ public class FrescoLoader implements ILoader {
                 // 并且同时支持PNG，JPG以及WEP格式的图片，非常强大,与ResizeOptions配合使用
                 .setBitmapsConfig(Bitmap.Config.RGB_565)
                 //让fresco即时清理内存:http://blog.csdn.net/honjane/article/details/65629799
-                //.setBitmapMemoryCacheParamsSupplier(new MyBitmapMemoryCacheParamsSupplier((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)))
+                .setBitmapMemoryCacheParamsSupplier(new MyBitmapMemoryCacheParamsSupplier((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)))
                 .build();
 
         //Fresco.initialize(context, config);
         BigImageViewer.initialize(FrescoImageLoader.with(context, config));
+//        FLog.setMinimumLoggingLevel(FLog.VERBOSE);
 
     }
 
@@ -129,7 +131,7 @@ public class FrescoLoader implements ILoader {
             config.setBitmapListener(new SingleConfig.BitmapListener() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
-                    imageView.setImageBitmap(bitmap);
+                    //imageView.setImageBitmap(bitmap);
                 }
 
                 @Override
@@ -140,8 +142,6 @@ public class FrescoLoader implements ILoader {
             requestBitmap(config);
             return;
         }
-
-
     }
 
 
