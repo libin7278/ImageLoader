@@ -174,12 +174,6 @@ public class SingleConfig {
 
     private BitmapListener bitmapListener;
 
-    /*public BigImageView getBigImageView() {
-        return bigImageView;
-    }*/
-
-    // private BigImageView bigImageView ;//可放大和缩放的大图
-
     private void show(){
         GlobalConfig.getLoader().request(this);
     }
@@ -229,11 +223,6 @@ public class SingleConfig {
         this.reuseable = builder.reuseable;
         this.loadingResId = builder.loadingResId;
         this.errorResId = builder.errorResId;
-
-        // this.bigImageView = builder.bigImageView;
-
-
-
     }
 
 
@@ -283,8 +272,6 @@ public class SingleConfig {
         private int loadingResId;
         private int errorResId;
 
-
-
         private int shapeMode;//默认矩形,可选直角矩形,圆形/椭圆
         private int rectRoundRadius;//圆角矩形时圆角的半径
 
@@ -299,24 +286,9 @@ public class SingleConfig {
         private int borderWidth;//边框的宽度
         private int borderColor;//边框颜色
 
-        /*private BigImageView bigImageView ;//可放大和缩放的大图
-
-        public ConfigBuilder intoBigImageView(BigImageView bigImageView ){
-            this.bigImageView = bigImageView;
-            return this;
-        }*/
-
-
-
-
         public ConfigBuilder(Context context){
             this.context = context;
-
         }
-
-        /*public ConfigBuilder(SingleConfig config){
-
-        }*/
 
         public ConfigBuilder ignoreCertificateVerify(boolean ignoreCertificateVerify){
             this.ignoreCertificateVerify = ignoreCertificateVerify;
@@ -335,14 +307,28 @@ public class SingleConfig {
             }
             return this;
         }
+
+        /**
+         * 缩略图
+         * @param thumbnailUrl
+         * @return
+         */
         public ConfigBuilder thumbnail(String thumbnailUrl){
             this.thumbnailUrl = thumbnailUrl;
             return this;
         }
+
+
         public ConfigBuilder loading(int  loadingResId){
             this.loadingResId = loadingResId;
             return this;
         }
+
+        /**
+         * error图
+         * @param errorResId
+         * @return
+         */
         public ConfigBuilder error(int  errorResId){
             this.errorResId = errorResId;
             return this;
@@ -387,10 +373,6 @@ public class SingleConfig {
             new SingleConfig(this).show();
         }
 
-        /*public SingleConfig build(){
-            return new SingleConfig(this);
-        }*/
-
         /**
          * dp单位
          * @param width
@@ -426,8 +408,11 @@ public class SingleConfig {
             return this;
         }
 
-
-
+        /**
+         * 圆角
+         * @param overlayColorWhenGif
+         * @return
+         */
         public ConfigBuilder asCircle(int overlayColorWhenGif){
             this.shapeMode = ShapeMode.OVAL;
             this.roundOverlayColor  = overlayColorWhenGif;

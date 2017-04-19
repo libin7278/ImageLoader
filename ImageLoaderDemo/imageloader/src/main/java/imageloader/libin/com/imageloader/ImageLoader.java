@@ -2,20 +2,12 @@ package imageloader.libin.com.imageloader;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.view.BigImageView;
 
 import java.io.File;
-import java.util.List;
 
-import imageloader.libin.com.imageloader.bigimage.PagerAdapterForBigImage;
-import imageloader.libin.com.imageloader.bigimage.RecycleAdapterForBigImage;
 import imageloader.libin.com.imageloader.config.GlobalConfig;
 import imageloader.libin.com.imageloader.config.SingleConfig;
 import imageloader.libin.com.imageloader.interfaces.ILoader;
@@ -37,7 +29,6 @@ public class ImageLoader {
     }
 
     /**
-     *
      * @param context
      * @param cacheSizeInM 缓存文件夹最大多少
      * @param useFrescoOrGlide 为true时,底层使用fresco,false时使用glide
@@ -77,30 +68,30 @@ public class ImageLoader {
 
 
 
-    /**
-     *   加载多张大图.支持动态更新urls
-     * @param viewPager new出来的或者从xml中解析出来的
-     * @param urls 图片路径
-     */
-    public static void loadBigImages(ViewPager viewPager, List<String> urls){//,String thumbnail
-        viewPager.setOffscreenPageLimit(1);
-        // ViewPager viewPager = new ViewPager(context);
-        if( viewPager.getAdapter()==null  ){
-            PagerAdapter adapter = new PagerAdapterForBigImage(urls);
-            viewPager.setAdapter(adapter);
-        }else if (viewPager.getAdapter() instanceof PagerAdapterForBigImage){
-            PagerAdapterForBigImage adapterForBigImage = (PagerAdapterForBigImage) viewPager.getAdapter();
-            adapterForBigImage.changeDatas(urls);
-        }else {
-            throw new RuntimeException("用于加载大图的viewPager应该专用,其adapter不要自己设置");
-        }
-    }
-
-    public static void loadBigImages(RecyclerView recyclerView, List<String> urls){
-        recyclerView.setAdapter(new RecycleAdapterForBigImage(urls));
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(),LinearLayoutManager.HORIZONTAL,false));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-    }
+//    /**
+//     *   加载多张大图.支持动态更新urls
+//     * @param viewPager new出来的或者从xml中解析出来的
+//     * @param urls 图片路径
+//     */
+//    public static void loadBigImages(ViewPager viewPager, List<String> urls){//,String thumbnail
+//        viewPager.setOffscreenPageLimit(1);
+//        // ViewPager viewPager = new ViewPager(context);
+//        if( viewPager.getAdapter()==null  ){
+//            PagerAdapter adapter = new PagerAdapterForBigImage(urls);
+//            viewPager.setAdapter(adapter);
+//        }else if (viewPager.getAdapter() instanceof PagerAdapterForBigImage){
+//            PagerAdapterForBigImage adapterForBigImage = (PagerAdapterForBigImage) viewPager.getAdapter();
+//            adapterForBigImage.changeDatas(urls);
+//        }else {
+//            throw new RuntimeException("用于加载大图的viewPager应该专用,其adapter不要自己设置");
+//        }
+//    }
+//
+//    public static void loadBigImages(RecyclerView recyclerView, List<String> urls){
+//        recyclerView.setAdapter(new RecycleAdapterForBigImage(urls));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(),LinearLayoutManager.HORIZONTAL,false));
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//    }
 
     /**
      * 图片保存到相册

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 25
@@ -19,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -29,8 +35,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:25.3.0'
+
     compile 'com.github.bumptech.glide:glide:3.7.0'
+
+
     compile 'jp.wasabeef:glide-transformations:2.0.1'
+
+
     compile 'com.facebook.fresco:fresco:1.2.0'
     // 在 API < 14 上的机器支持 WebP 时，需要添加
     compile 'com.facebook.fresco:animated-base-support:1.2.0'
@@ -39,18 +50,91 @@ dependencies {
     // 支持 WebP （静态图+动图），需要添加
     compile 'com.facebook.fresco:animated-webp:1.2.0'
     compile 'com.facebook.fresco:webpsupport:1.2.0'
-
     compile 'com.facebook.fresco:imagepipeline-okhttp3:1.2.0'
+
+
     compile 'jp.wasabeef:fresco-processors:2.0.0'
     //processors
-    compile 'com.github.piasy:BigImageViewer:1.2.7'
+    compile 'com.github.piasy:BigImageViewer:1.2.9'
     // load with fresco
-    compile 'com.github.piasy:FrescoImageLoader:1.2.7'
+    compile 'com.github.piasy:FrescoImageLoader:1.2.9'
     // load with glide
-    compile 'com.github.piasy:GlideImageLoader:1.2.7'
+    compile 'com.github.piasy:GlideImageLoader:1.2.9'
     // progress pie indicator
-    compile 'com.github.piasy:ProgressPieIndicator:1.2.7'
+    compile 'com.github.piasy:ProgressPieIndicator:1.2.9'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.android.support:support-v4:25.3.0'
 
+}
+
+def siteUrl = 'https://github.com/libin7278/ImageLoader'   // 项目的主页
+def gitUrl = 'https://github.com/libin7278/ImageLoader.git'   // Git仓库的url
+group = "com.libin.imageloader"            // Maven Group ID for the artifact，一般填你唯一的包名 发布到组织名称名字，必须填写
+//发布到JCenter上的项目名字，必须填写
+def libName = "AndroidFastDevFrame"
+// 版本号，下次更新是只需要更改版本号即可
+version = "1.0.0"
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name '图片加载集成fresco和glide'     //项目的描述 你可以多写一点
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name '图片加载集成fresco和glide'
+                        url 'https://github.com/libin7278/ImageLoader'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'libin'        //填写的一些基本信息
+                        name 'Jason'
+                        email 'Jasonlibin2@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = "libin7278jc"
+    key = "3e1fb10e4e7d850e068ea5fee9acc72316a8f121"
+    configurations = ['archives']
+    pkg {
+        userOrg="jasonp"
+        repo = "ImageLoader"
+        name = "ImageLoader"    //发布到JCenter上的项目名字
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
 }

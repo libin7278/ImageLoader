@@ -31,7 +31,7 @@ import javax.net.ssl.X509TrustManager;
 import imageloader.libin.com.imageloader.R;
 import imageloader.libin.com.imageloader.config.GlobalConfig;
 import imageloader.libin.com.imageloader.config.SingleConfig;
-import imageloader.libin.com.imageloader.fresco.ProgressPieIndicator1;
+import imageloader.libin.com.imageloader.fresco.ProgressPieIndicator;
 import okhttp3.OkHttpClient;
 
 /**
@@ -70,10 +70,9 @@ public class MyUtil {
 
     public static void viewBigImage(SingleConfig config) {
         BigImageView bigImageView = (BigImageView) config.getTarget();
-        //bigImageView.setProgressIndicator(new ProgressPieIndicator1());
 
         if (!TextUtils.isEmpty(config.getUrl()) && !GlobalConfig.getLoader().isCached(config.getUrl())) {
-            bigImageView.setProgressIndicator(new ProgressPieIndicator1());
+            bigImageView.setProgressIndicator(new ProgressPieIndicator());
         } else {
             bigImageView.setProgressIndicator(null);
             int count = bigImageView.getChildCount();

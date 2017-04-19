@@ -61,13 +61,9 @@ public class ViewpagerActivity extends Activity {
         urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490972384&di=3cafec5973c15688726cec59e1d9085e&imgtype=jpg&er=1&src=http%3A%2F%2Fbbs11.djicdn.com%2Fdata%2Fattachment%2Fforum%2F201604%2F01%2F133253wg01kxggh8o215gc.jpg");
         urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490972455&di=53778e44f17970656d0dc2e0a9ce4ee9&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.7695556.com%2Fdata%2Fattachment%2Fforum%2F201609%2F28%2F201212dpyqwo0aam49owpa.jpg");
 
-
-
-
-
         // PagerAdapterForBigImage adapter = new PagerAdapterForBigImage(urls);
         // viewPager.setAdapter(adapter);
-        ImageLoader.loadBigImages(viewPager,urls);
+        //ImageLoader.loadBigImages(viewPager,urls);
     }
 
     @Override

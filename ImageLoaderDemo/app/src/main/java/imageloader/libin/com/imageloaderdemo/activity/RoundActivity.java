@@ -29,11 +29,13 @@ public class RoundActivity extends AppCompatActivity {
 
 
         ImageLoader.with(this)
-                //.url("https://pic1.zhimg.com/v2-7868c606d6ddddbdd56f0872e514925c_b.jpg")
-                 .url("http://img.yxbao.com/news/image/201703/13/7bda462477.gif")
+                .thumbnail("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490944508&di=671845045c66356487c1a539c4ed0717&imgtype=jpg&er=1&src=http%3A%2F%2Fattach.bbs.letv.com%2Fforum%2F201606%2F27%2F185306g84m4gsxztvzxjt5.jpg")
+
+                .url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490944508&di=671845045c66356487c1a539c4ed0717&imgtype=jpg&er=1&src=http%3A%2F%2Fattach.bbs.letv.com%2Fforum%2F201606%2F27%2F185306g84m4gsxztvzxjt5.jpg")
+                 //.thumbnail("http://img.yxbao.com/news/image/201703/13/7bda462477.gif")
                 // .res(R.drawable.thegif)
 //                .placeHolder(R.mipmap.ic_launcher,false)
-//                .rectRoundCorner(30, R.color.colorPrimary)
+                .rectRoundCorner(30, R.color.default_stroke_color)
 //                .blur(40)
                 .into(iv_round);
 

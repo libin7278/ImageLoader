@@ -12,7 +12,7 @@ import imageloader.libin.com.imageloader.R;
  * Created by doudou on 2017/4/10.
  */
 
-public class ProgressPieIndicator1 implements ProgressIndicator {
+public class ProgressPieIndicator implements ProgressIndicator {
     // private ProgressBar progressBar;
     private View root;
     private String cacheFile;
