@@ -6,20 +6,11 @@ package imageloader.libin.com.images.config;
 
 public interface ScaleMode {
     /**
-     * 居中并填充整个view,太小就扩张,太大就裁剪,图片只缩放,不会拉伸.
+     * 等比例缩放图片，直到图片的狂高都大于等于ImageView的宽度，然后截取中间的显示
      */
     int CENTER_CROP = 1;
     /**
-     * 拉伸图片,使之刚好填充满view
+     * 等比例缩放图片，宽或者是高等于ImageView的宽或者是高
      */
-    int FIT_XY = 2;
-    /**
-     * 图片居中,如果太小,不会拉伸放大,导致外部显示view背景,如果太大,图片很多部位显示不出来
-     */
-    int CENTER = 4;
-    int FOCUS_CROP = 5;
-    int FIT_CENTER = 6;
-    int FIT_START = 7;
-    int FIT_END = 8;
-    int CENTER_INSIDE = 9;
+    int FIT_CENTER = 2;
 }

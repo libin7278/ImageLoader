@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -17,7 +18,7 @@ import imageloader.libin.com.images.utils.MyUtil;
 
 public class SingleConfig {
     private Context context;
-    private boolean ignoreCertificateVerify;
+    private boolean ignoreCertificateVerify; //https是否忽略校验
     private String url;
     private float thumbnail; //缩略图缩放倍数
     private String filePath; //文件路径
@@ -27,12 +28,12 @@ public class SingleConfig {
     private View target;
     private int width;
     private int height;
+    private int oWidth;
+    private int oHeight;
     private boolean needBlur;//是否需要模糊
 
     private int blurRadius;
     private int placeHolderResId;
-    private boolean reuseable; //是否复用
-    private int loadingResId;
     private int errorResId;
     private int shapeMode;//默认矩形,可选直角矩形,圆形/椭圆
     private int rectRoundRadius;//圆角矩形时圆角的半径
@@ -54,8 +55,12 @@ public class SingleConfig {
         this.ignoreCertificateVerify = builder.ignoreCertificateVerify;
 
         this.target = builder.target;
+
         this.width = builder.width;
         this.height = builder.height;
+
+        this.oWidth = builder.oWidth;
+        this.oHeight = builder.oHeight;
 
         this.shapeMode = builder.shapeMode;
         if (shapeMode == ShapeMode.RECT_ROUND) {
@@ -72,14 +77,12 @@ public class SingleConfig {
             this.borderColor = builder.borderColor;
         }
 
-
         this.asBitmap = builder.asBitmap;
         this.bitmapListener = builder.bitmapListener;
 
         this.roundOverlayColor = builder.roundOverlayColor;
         this.isGif = builder.isGif;
         this.blurRadius = builder.blurRadius;
-        this.loadingResId = builder.loadingResId;
         this.errorResId = builder.errorResId;
     }
 
@@ -98,10 +101,6 @@ public class SingleConfig {
 
     public DiskCacheStrategy getDiskCacheStrategy() {
         return diskCacheStrategy;
-    }
-
-    public int getLoadingResId() {
-        return loadingResId;
     }
 
     public int getErrorResId() {
@@ -163,9 +162,10 @@ public class SingleConfig {
                 height = target.getMeasuredWidth();
             }
             if (height <= 0) {
-                height = GlobalConfig.getWinWidth();
+                height = GlobalConfig.getWinHeight();
             }
         }
+        Logger.e("getHeight  :" + height);
 
         return height;
     }
@@ -180,7 +180,17 @@ public class SingleConfig {
                 width = GlobalConfig.getWinWidth();
             }
         }
+
+        Logger.e("getWidth  :" + width);
         return width;
+    }
+
+    public int getoWidth() {
+        return oWidth;
+    }
+
+    public int getoHeight() {
+        return oHeight;
     }
 
     public int getRoundOverlayColor() {
@@ -227,14 +237,14 @@ public class SingleConfig {
 
         private boolean ignoreCertificateVerify = GlobalConfig.ignoreCertificateVerify;
 
-        //图片源
         /**
+         * 图片源
          * 类型	SCHEME	示例
          * 远程图片	http://, https://	HttpURLConnection 或者参考 使用其他网络加载方案
          * 本地文件	file://	FileInputStream
          * Content provider	content://	ContentResolver
          * asset目录下的资源	asset://	AssetManager
-         * res目录下的资源	res://	Resources.openRawResource
+         * res目录下的资源	  res://	Resources.openRawResource
          * Uri中指定图片数据	data:mime/type;base64,	数据类型必须符合 rfc2397规定 (仅支持 UTF-8)
          *
          * @param config
@@ -254,24 +264,21 @@ public class SingleConfig {
         private int width;
         private int height;
 
+        private int oWidth; //选择加载分辨率的宽
+        private int oHeight; //选择加载分辨率的高
+
         private boolean needBlur = false;//是否需要模糊
         private int blurRadius;
 
         //UI:
         private int placeHolderResId;
 
-        private int loadingResId;
         private int errorResId;
 
         private int shapeMode;//默认矩形,可选直角矩形,圆形/椭圆
         private int rectRoundRadius;//圆角矩形时圆角的半径
 
         private DiskCacheStrategy diskCacheStrategy;
-
-        public ConfigBuilder setRoundOverlayColor(int roundOverlayColor) {
-            this.roundOverlayColor = roundOverlayColor;
-            return this;
-        }
 
         private int roundOverlayColor;//圆角/圆外覆盖一层背景色
         private int scaleMode;//填充模式,默认centercrop,可选fitXY,centerInside...
@@ -281,6 +288,11 @@ public class SingleConfig {
 
         public ConfigBuilder(Context context) {
             this.context = context;
+        }
+
+        public ConfigBuilder setRoundOverlayColor(int roundOverlayColor) {
+            this.roundOverlayColor = roundOverlayColor;
+            return this;
         }
 
         public ConfigBuilder ignoreCertificateVerify(boolean ignoreCertificateVerify) {
@@ -309,11 +321,6 @@ public class SingleConfig {
          */
         public ConfigBuilder thumbnail(float thumbnail){
             this.thumbnail = thumbnail;
-            return this;
-        }
-
-        public ConfigBuilder loading(int loadingResId) {
-            this.loadingResId = loadingResId;
             return this;
         }
 
@@ -369,15 +376,16 @@ public class SingleConfig {
         }
 
         /**
-         * dp单位
-         *
-         * @param width
-         * @param height
+         * 加载图片的分辨率
+         * @param oWidth
+         * @param oHeight
          * @return
          */
-        public ConfigBuilder loadImageViewSize(int width, int height) {
-            this.width = MyUtil.dip2px(width);
-            this.height = MyUtil.dip2px(height);
+        public ConfigBuilder override(int oWidth, int oHeight) {
+            this.oWidth = MyUtil.dip2px(oWidth);
+            this.oHeight = MyUtil.dip2px(oHeight);
+
+            Logger.e("width : " +oWidth  + "    oHeight : " +oHeight);
             return this;
         }
 
@@ -447,20 +455,8 @@ public class SingleConfig {
             this.scaleMode = scaleMode;
             return this;
         }
-
-        /**
-         * 设置边框
-         *
-         * @param borderWidth
-         * @param borderColor
-         * @return
-         */
-        public ConfigBuilder border(int borderWidth, int borderColor) {
-            this.borderWidth = MyUtil.dip2px(borderWidth);
-            this.borderColor = borderColor;
-            return this;
-        }
-
     }
+
+
 
 }

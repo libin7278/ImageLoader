@@ -62,26 +62,6 @@ public class MyUtil {
         GlobalConfig.getMainHandler().post(runnable);
     }
 
-
-//    public static void viewBigImage(SingleConfig config) {
-//        BigImageView bigImageView = (BigImageView) config.getTarget();
-//
-//        if (!TextUtils.isEmpty(config.getUrl()) && !GlobalConfig.getLoader().isCached(config.getUrl())) {
-//            bigImageView.setProgressIndicator(new ProgressPieIndicator());
-//        } else {
-//            bigImageView.setProgressIndicator(null);
-//            int count = bigImageView.getChildCount();
-//            for (int i = 0; i < count; i++) {
-//                View child = bigImageView.getChildAt(i);
-//                if (child.findViewById(R.id.progressBar00) != null) {
-//                    child.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//        }
-//        bigImageView.showImage(buildUriByType(config));
-//    }
-
-
     public static boolean shouldSetPlaceHolder(SingleConfig config) {
         if (config.getPlaceHolderResId() <= 0) {
             return false;

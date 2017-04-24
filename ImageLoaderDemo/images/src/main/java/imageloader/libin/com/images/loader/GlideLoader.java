@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,6 +18,7 @@ import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -74,9 +74,8 @@ public class GlideLoader implements ILoader {
 
             if(config.getDiskCacheStrategy() != null){
                 request.diskCacheStrategy(config.getDiskCacheStrategy());
-                Log.e("GlideLoader" , "config.getDiskCacheStrategy() :  " +config.getDiskCacheStrategy());
+                Logger.e("config.getDiskCacheStrategy() :  " +config.getDiskCacheStrategy());
             }
-
 
             request.asBitmap().into(target);
 
@@ -96,53 +95,34 @@ public class GlideLoader implements ILoader {
                 case ScaleMode.CENTER_CROP:
                     request.centerCrop();
                     break;
-                case ScaleMode.CENTER_INSIDE:
-                    request.centerCrop();
-                    break;
                 case ScaleMode.FIT_CENTER:
                     request.fitCenter();
                     break;
-                case ScaleMode.FIT_XY:
-                    request.centerCrop();
-                    break;
-                case ScaleMode.FIT_END:
-                    request.centerCrop();
-                    break;
-                case ScaleMode.FOCUS_CROP:
-                    request.centerCrop();
-                    break;
-                case ScaleMode.CENTER:
-                    request.centerCrop();
-                    break;
-                case ScaleMode.FIT_START:
-                    request.centerCrop();
-                    break;
                 default:
-                    request.centerCrop();
+                    request.fitCenter();
                     break;
             }
 
 
+            // TODO: 2017/4/21 设置图片滤镜(目前只有高斯)
             setShapeModeAndBlur(config, request);
 
-            // TODO: 2017/4/21 设置图片滤镜
 
-            // TODO: 2017/4/21  thumbnail(0.1f)属性抛出去给用户自己设置，在加载圆角的时候去
-//            request.override(config.getWidth(), config.getHeight())
-//                    .thumbnail(0.1f);
-
+            //设置缩略图
             if(config.getThumbnail() != 0){
-                request.override(config.getWidth(), config.getHeight()).thumbnail(config.getThumbnail());
-                Log.e("GlideLoader", "feiling");
-            }else{
-                request.override(config.getWidth(), config.getHeight());
-                Log.e("GlideLoader", "weiling");
+                request.thumbnail(config.getThumbnail());
             }
 
+            //设置图片加载的分辨 sp
+            if(config.getoWidth() != 0 && config.getoHeight() != 0){
+                request.override(config.getoWidth(),config.getoHeight());
+                Logger.e("设置图片加载的分辨 : " + config.getoWidth()   + "   " +config.getoHeight());
+            }
 
+            //是否跳过磁盘存储
             if(config.getDiskCacheStrategy() != null){
                 request.diskCacheStrategy(config.getDiskCacheStrategy());
-                Log.e("GlideLoader" , "config.getDiskCacheStrategy() :  " +config.getDiskCacheStrategy());
+                Logger.e( "config.getDiskCacheStrategy() :  " +config.getDiskCacheStrategy());
             }
 
             if (config.getErrorResId() > 0) {
@@ -151,6 +131,8 @@ public class GlideLoader implements ILoader {
 
             if (config.getTarget() instanceof ImageView) {
                 request.into((ImageView) config.getTarget());
+
+                Logger.e("config.getTarget()" + config.getTarget().getMeasuredWidth());
             }
         }
 
