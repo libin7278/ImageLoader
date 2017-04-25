@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -31,6 +33,14 @@ public class SingleConfig {
     private int oWidth;
     private int oHeight;
     private boolean needBlur;//是否需要模糊
+
+    private int priority;
+
+    private int animationType;
+    private int animationId;
+    private Animation animation;
+
+    private ViewPropertyAnimation.Animator animator;
 
     private int blurRadius;
     private int placeHolderResId;
@@ -69,6 +79,13 @@ public class SingleConfig {
         this.scaleMode = builder.scaleMode;
 
         this.diskCacheStrategy = builder.diskCacheStrategy;
+
+        this.animationId = builder.animationId;
+        this.animationType = builder.animationType;
+        this.animator = builder.animator;
+        this.animation = builder.animation;
+
+        this.priority = builder.priority;
 
         this.needBlur = builder.needBlur;
         this.placeHolderResId = builder.placeHolderResId;
@@ -193,6 +210,26 @@ public class SingleConfig {
         return oHeight;
     }
 
+    public int getAnimationType() {
+        return animationType;
+    }
+
+    public int getAnimationId() {
+        return animationId;
+    }
+
+    public Animation getAnimation() {
+        return animation;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public ViewPropertyAnimation.Animator getAnimator() {
+        return animator;
+    }
+
     public int getRoundOverlayColor() {
         return roundOverlayColor;
     }
@@ -261,6 +298,7 @@ public class SingleConfig {
         private boolean asBitmap;//只获取bitmap
         private BitmapListener bitmapListener;
 
+        // TODO: 2017/4/24 宽高的获取
         private int width;
         private int height;
 
@@ -283,8 +321,16 @@ public class SingleConfig {
         private int roundOverlayColor;//圆角/圆外覆盖一层背景色
         private int scaleMode;//填充模式,默认centercrop,可选fitXY,centerInside...
 
+        private int priority; //请求优先级
+
+        public int animationId; //动画资源id
+        public int animationType; //动画资源Type
+        public Animation animation; //动画资源
+        public ViewPropertyAnimation.Animator animator; //动画资源id
+
         private int borderWidth;//边框的宽度
         private int borderColor;//边框颜色
+
 
         public ConfigBuilder(Context context) {
             this.context = context;
@@ -453,6 +499,31 @@ public class SingleConfig {
          */
         public ConfigBuilder scale(int scaleMode) {
             this.scaleMode = scaleMode;
+            return this;
+        }
+
+
+        public ConfigBuilder animate(int animationId) {
+            this.animationType = AnimationMode.ANIMATIONID;
+            this.animationId = animationId;
+            return this;
+        }
+
+        public ConfigBuilder animate(ViewPropertyAnimation.Animator animator) {
+            this.animationType = AnimationMode.ANIMATOR;
+            this.animator = animator;
+            return this;
+        }
+
+        public ConfigBuilder animate(Animation animation) {
+            this.animationType = AnimationMode.ANIMATION;
+            this.animation = animation;
+            return this;
+        }
+
+        public ConfigBuilder priority(int priority) {
+            this.priority = priority;
+
             return this;
         }
     }

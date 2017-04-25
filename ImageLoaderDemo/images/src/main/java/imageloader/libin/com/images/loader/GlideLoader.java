@@ -12,6 +12,7 @@ import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.MemoryCategory;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
@@ -22,7 +23,9 @@ import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
+import imageloader.libin.com.images.config.AnimationMode;
 import imageloader.libin.com.images.config.GlobalConfig;
+import imageloader.libin.com.images.config.PriorityMode;
 import imageloader.libin.com.images.config.ScaleMode;
 import imageloader.libin.com.images.config.ShapeMode;
 import imageloader.libin.com.images.config.SingleConfig;
@@ -72,9 +75,9 @@ public class GlideLoader implements ILoader {
 
             setShapeModeAndBlur(config, request);
 
-            if(config.getDiskCacheStrategy() != null){
+            if (config.getDiskCacheStrategy() != null) {
                 request.diskCacheStrategy(config.getDiskCacheStrategy());
-                Logger.e("config.getDiskCacheStrategy() :  " +config.getDiskCacheStrategy());
+                Logger.e("config.getDiskCacheStrategy() :  " + config.getDiskCacheStrategy());
             }
 
             request.asBitmap().into(target);
@@ -109,21 +112,27 @@ public class GlideLoader implements ILoader {
 
 
             //设置缩略图
-            if(config.getThumbnail() != 0){
+            if (config.getThumbnail() != 0) {
                 request.thumbnail(config.getThumbnail());
             }
 
             //设置图片加载的分辨 sp
-            if(config.getoWidth() != 0 && config.getoHeight() != 0){
-                request.override(config.getoWidth(),config.getoHeight());
-                Logger.e("设置图片加载的分辨 : " + config.getoWidth()   + "   " +config.getoHeight());
+            if (config.getoWidth() != 0 && config.getoHeight() != 0) {
+                request.override(config.getoWidth(), config.getoHeight());
+                Logger.e("设置图片加载的分辨 : " + config.getoWidth() + "   " + config.getoHeight());
             }
 
             //是否跳过磁盘存储
-            if(config.getDiskCacheStrategy() != null){
+            if (config.getDiskCacheStrategy() != null) {
                 request.diskCacheStrategy(config.getDiskCacheStrategy());
-                Logger.e( "config.getDiskCacheStrategy() :  " +config.getDiskCacheStrategy());
+                Logger.e("config.getDiskCacheStrategy() :  " + config.getDiskCacheStrategy());
             }
+
+            //设置图片加载动画
+           setAnimator(config, request);
+
+            //设置图片加载优先级
+            setPriority(config, request);
 
             if (config.getErrorResId() > 0) {
                 request.error(config.getErrorResId());
@@ -136,6 +145,39 @@ public class GlideLoader implements ILoader {
             }
         }
 
+    }
+
+    private void setPriority(SingleConfig config, DrawableTypeRequest request) {
+        switch (config.getPriority()) {
+            case PriorityMode.PRIORITY_LOW:
+                request.priority(Priority.LOW);
+                break;
+            case PriorityMode.PRIORITY_NORMAL:
+                request.priority(Priority.NORMAL);
+                break;
+            case PriorityMode.PRIORITY_HIGH:
+                request.priority(Priority.HIGH);
+                break;
+            case PriorityMode.PRIORITY_IMMEDIATE:
+                request.priority(Priority.IMMEDIATE);
+                break;
+        }
+    }
+
+    /**
+     * 设置加载进入动画
+     *
+     * @param config
+     * @param request
+     */
+    private void setAnimator(SingleConfig config, DrawableTypeRequest request) {
+        if (config.getAnimationType() == AnimationMode.ANIMATIONID) {
+            request.animate(config.getAnimationId());
+        } else if (config.getAnimationType() == AnimationMode.ANIMATOR) {
+            request.animate(config.getAnimator());
+        } else if (config.getAnimationType() == AnimationMode.ANIMATION) {
+            request.animate(config.getAnimation());
+        }
     }
 
     @Nullable

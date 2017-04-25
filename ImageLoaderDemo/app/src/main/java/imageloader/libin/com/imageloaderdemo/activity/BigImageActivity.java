@@ -1,13 +1,19 @@
 package imageloader.libin.com.imageloaderdemo.activity;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 
 import imageloader.libin.com.imageloaderdemo.R;
+import imageloader.libin.com.images.config.PriorityMode;
 import imageloader.libin.com.images.config.ScaleMode;
 import imageloader.libin.com.images.loader.ImageLoader;
 
@@ -30,6 +36,22 @@ public class BigImageActivity extends AppCompatActivity {
 
     private void show() {
 
+        ViewPropertyAnimation.Animator animationObject = new ViewPropertyAnimation.Animator() {
+            @Override
+            public void animate(View view) {
+                // if it's a custom view class, cast it here
+                // then find subviews and do the animations
+                // here, we just use the entire view for the fade animation
+                view.setAlpha( 0f );
+
+                ObjectAnimator fadeAnim = ObjectAnimator.ofFloat( view, "alpha", 0f, 1f );
+                fadeAnim.setDuration( 2500 );
+                fadeAnim.start();
+            }
+        };
+
+        AlphaAnimation animation = new AlphaAnimation(0,1);
+        animation.setDuration(0);
 
         Glide.with(this)
                 //.url("http://img.yxbao.com/news/image/201703/13/7bda462477.gif")
@@ -45,12 +67,16 @@ public class BigImageActivity extends AppCompatActivity {
                //.rectRoundCorner(40, R.color.colorPrimary)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 //.thumbnail(0.5f)
-//.fitCenter()
+                //.fitCenter()
+                //.crossFade(3000)
+                //.animate(animation)
+                .priority(Priority.IMMEDIATE)
                 .centerCrop()
                 .into(iv_round);
 
         ImageLoader.with(this)
-                .url("http://img.yxbao.com/news/image/201703/13/7bda462477.gif")
+                //.url("http://img.yxbao.com/news/image/201703/13/7bda462477.gif")
+                .url("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2796659031,1466769776&fm=80&w=179&h=119&img.JPEG")
 
                 //.url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490944508&di=671845045c66356487c1a539c4ed0717&imgtype=jpg&er=1&src=http%3A%2F%2Fattach.bbs.letv.com%2Fforum%2F201606%2F27%2F185306g84m4gsxztvzxjt5.jpg")
                // .url("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2796659031,1466769776&fm=80&w=179&h=119&img.JPEG")
@@ -60,8 +86,10 @@ public class BigImageActivity extends AppCompatActivity {
                //.rectRoundCorner(40, R.color.colorPrimary)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 //.thumbnail(0.9f)
-                .scale(ScaleMode.FIT_CENTER)
-
+                .animate(animation)
+                .scale(ScaleMode.CENTER_CROP)
+               // .animate(android.R.anim.slide_in_left)
+                .priority(PriorityMode.PRIORITY_LOW)
                 .into(iv_circle);
 
 
