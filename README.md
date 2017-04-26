@@ -1,4 +1,5 @@
-#前言
+前言
+=============
 > - 有人可能会问为什么选择Glide进行二次封装？
 >  - 那你应该去看我的上一篇文章：
 >  http://blog.csdn.net/github_33304260/article/details/70213300
@@ -8,7 +9,8 @@
 >   - 外部表现一致，内部灵活处理原则
 >   - 更多内容参考：[如何正确使用开源项目？](http://mp.weixin.qq.com/s?__biz=MzA4NTQwNDcyMA==&mid=2650661623&idx=1&sn=ab28ac6587e8a5ef1241be7870851355#rd)  
 
-#初识Glide
+初识Glide
+=============
 ##Glide配置
 **1、 在build.gradle中添加依赖：**
 
@@ -108,7 +110,8 @@ Glide
 
 ***更多Glide详细介绍可以看[Glide官网](https://github.com/bumptech/glide)以及[Glide教程系列文章](http://www.jianshu.com/p/7610bdbbad17)***
 
-#如何封装
+如何封装
+=============
 明白了为什么封装以及基本原理，接下来我们就要开工，大干一场。
 
 先看一下本人封装后的基本使用样式：
@@ -213,6 +216,18 @@ ImageLoader是封装好所有的方法供用户使用的，让我们看看都有
  > - animate(ViewPropertyAnimation.Animator animato) 引入动画
 > - asBitmap(BitmapListener bitmapListener)// 使用bitmap不显示到imageview
 > - into(View targetView) //展示到imageview
+> - colorFilter(int filteColor) //颜色滤镜
+> - blur(int blurRadius) ／/高斯模糊
+> - brightnessFilter(float level) //调节图片亮度
+> - grayscaleFilter() //黑白效果
+> - swirlFilter() //漩涡效果
+> - toonFilter() //油画效果
+> - sepiaFilter() //水墨画效果
+> - contrastFilter(float constrasrLevel) //锐化效果
+> - invertFilter() //胶片效果
+> - pixelationFilter(float pixelationLevel)  //马赛克效果
+> - sketchFilter() //  //素描效果
+> - vignetteFilter() //晕映效果
 
 [github项目地址](https://github.com/libin7278/ImageLoader)
 
@@ -476,6 +491,9 @@ public class GlideLoader implements ILoader {
     }
 }
 ```
+
+看一下效果哦：
+![这里写图片描述](http://img.blog.csdn.net/20170426164943536?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ2l0aHViXzMzMzA0MjYw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 到这里我们的封装就结束了，就可以愉快的使用了，欢迎大家提出意见与建议。
 
