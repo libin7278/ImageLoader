@@ -2,7 +2,7 @@ package imageloader.libin.com.imageloaderdemo;
 
 import android.app.Application;
 
-import imageloader.libin.com.imageloader.ImageLoader;
+import imageloader.libin.com.images.loader.ImageLoader;
 
 /**
  * Created by doudou on 2017/4/10.
@@ -14,7 +14,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        ImageLoader.init(getApplicationContext(), 240,true);
+        ImageLoader.init(getApplicationContext());
 
     }
 

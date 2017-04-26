@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-import imageloader.libin.com.imageloader.ImageLoader;
 import imageloader.libin.com.imageloaderdemo.R;
 
 
@@ -71,6 +70,6 @@ public class ViewpagerActivity extends Activity {
         super.onDestroy();
 
         //viewPager.destroyDrawingCache();
-        ImageLoader.clearAllMemoryCaches();//调了没用,也不需要调,下次进来自动会刷新内存
+//        ImageLoader.clearAllMemoryCaches();//调了没用,也不需要调,下次进来自动会刷新内存
     }
 }

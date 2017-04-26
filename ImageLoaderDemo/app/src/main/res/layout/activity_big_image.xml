@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <com.github.piasy.biv.view.BigImageView
-        android:id="@+id/mBigImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <ImageView
+        android:id="@+id/iv_round"
+        android:layout_width="100dp"
+        android:layout_height="150dp" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/iv_circle"
+        android:layout_width="100dp"
+        android:layout_height="150dp" />
+</LinearLayout>
