@@ -17,7 +17,7 @@
 
             <ImageView
                 android:id="@+id/iv_round"
-                android:layout_width="300dp"
+                android:layout_width="200dp"
                 android:layout_height="500dp" />
 
             <ImageView

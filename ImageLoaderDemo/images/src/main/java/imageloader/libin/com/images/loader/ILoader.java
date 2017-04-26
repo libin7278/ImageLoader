@@ -25,9 +25,8 @@ public interface ILoader {
 
     void clearDiskCache();
 
-    void clearCacheByUrl(String url);
-
     void clearMomoryCache(View view);
+
     void clearMomory();
 
     File getFileFromDiskCache(String url);

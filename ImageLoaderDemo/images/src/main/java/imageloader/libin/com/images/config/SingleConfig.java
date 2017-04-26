@@ -22,6 +22,7 @@ public class SingleConfig {
     private Context context;
     private boolean ignoreCertificateVerify; //https是否忽略校验
     private String url;
+
     private float thumbnail; //缩略图缩放倍数
     private String filePath; //文件路径
     private int resId;  //资源id
@@ -32,7 +33,24 @@ public class SingleConfig {
     private int height;
     private int oWidth;
     private int oHeight;
+
+    //滤镜
+    private boolean isNeedVignette; //是否需要晕映
+    private boolean isNeedSketch; //是否需要素描
+    private float pixelationLevel; //是否需要马赛克
+    private boolean isNeedPixelation; //是否需要马赛克
+    private boolean isNeedInvert; //是否需要胶片
+    public float contrastLevel;  //锐化等级
+    private boolean isNeedContrast; //是否需要锐化
+    private boolean isNeedSepia; //是否需要墨画
+    private boolean isNeedToon; //是否需要油画
+    private boolean isNeedSwirl;  // 是否需要漩涡
+    private boolean isNeedGrayscale; //是否需要黑色
+    private boolean isNeedBrightness; //是否需要亮度
+    private float brightnessLeve; //是否需要亮度
     private boolean needBlur;//是否需要模糊
+    private boolean needFilteColor;//是否需要模糊
+    private int filteColor;
 
     private int priority;
 
@@ -45,13 +63,12 @@ public class SingleConfig {
     private int blurRadius;
     private int placeHolderResId;
     private int errorResId;
+
     private int shapeMode;//默认矩形,可选直角矩形,圆形/椭圆
     private int rectRoundRadius;//圆角矩形时圆角的半径
     private DiskCacheStrategy diskCacheStrategy;//是否跳过磁盘存储
     private int roundOverlayColor;//圆角/圆外覆盖一层背景色
     private int scaleMode;//填充模式,默认centercrop,可选fitXY,centerInside...
-    private int borderWidth;//边框的宽度
-    private int borderColor;//边框颜色
 
     private BitmapListener bitmapListener;
 
@@ -86,13 +103,24 @@ public class SingleConfig {
         this.animation = builder.animation;
 
         this.priority = builder.priority;
-
+        //滤镜
+        this.isNeedVignette = builder.isNeedVignette; //是否需要晕映
+        this.isNeedSketch = builder.isNeedSketch; //是否需要素描
+        this.pixelationLevel = builder.pixelationLevel; //是否需要马赛克
+        this.isNeedPixelation = builder.isNeedPixelation; //是否需要马赛克
+        this.isNeedInvert = builder.isNeedInvert; //是否需要胶片
+        this.contrastLevel = builder.contrastLevel; //锐化等级
+        this.isNeedContrast = builder.isNeedContrast; //是否需要锐化
+        this.isNeedSepia = builder.isNeedSepia; //是否需要亮度
+        this.isNeedToon = builder.isNeedToon; //是否需要亮度
+        this.isNeedSwirl = builder.isNeedSwirl; //是否需要亮度
+        this.isNeedGrayscale = builder.isNeedGrayscale; //是否需要黑色
+        this.isNeedBrightness = builder.isNeedBrightness; //是否需要亮度
+        this.brightnessLeve = builder.brightnessLeve; //是否需要亮度
+        this.filteColor = builder.filteColor;
         this.needBlur = builder.needBlur;
+        this.needFilteColor = builder.needFilteColor;
         this.placeHolderResId = builder.placeHolderResId;
-        this.borderWidth = builder.borderWidth;
-        if (borderWidth > 0) {
-            this.borderColor = builder.borderColor;
-        }
 
         this.asBitmap = builder.asBitmap;
         this.bitmapListener = builder.bitmapListener;
@@ -122,14 +150,6 @@ public class SingleConfig {
 
     public int getErrorResId() {
         return errorResId;
-    }
-
-    public int getBorderColor() {
-        return borderColor;
-    }
-
-    public int getBorderWidth() {
-        return borderWidth;
     }
 
     public String getContentProvider() {
@@ -222,12 +242,32 @@ public class SingleConfig {
         return animation;
     }
 
+    public ViewPropertyAnimation.Animator getAnimator() {
+        return animator;
+    }
+
     public int getPriority() {
         return priority;
     }
 
-    public ViewPropertyAnimation.Animator getAnimator() {
-        return animator;
+    public int getFilteColor() {
+        return filteColor;
+    }
+
+    public float getContrastLevel() {
+        return contrastLevel;
+    }
+
+    public boolean isNeedFilteColor() {
+        return needFilteColor;
+    }
+
+    public float getBrightnessLeve() {
+        return brightnessLeve;
+    }
+
+    public boolean isNeedBrightness() {
+        return isNeedBrightness;
     }
 
     public int getRoundOverlayColor() {
@@ -261,6 +301,46 @@ public class SingleConfig {
 
     public int getBlurRadius() {
         return blurRadius;
+    }
+
+    public boolean isNeedGrayscale() {
+        return isNeedGrayscale;
+    }
+
+    public boolean isNeedSwirl() {
+        return isNeedSwirl;
+    }
+
+    public boolean isNeedToon() {
+        return isNeedToon;
+    }
+
+    public boolean isNeedSepia() {
+        return isNeedSepia;
+    }
+
+    public boolean isNeedContrast() {
+        return isNeedContrast;
+    }
+
+    public boolean isNeedInvert() {
+        return isNeedInvert;
+    }
+
+    public boolean isNeedPixelation() {
+        return isNeedPixelation;
+    }
+
+    public float getPixelationLevel() {
+        return pixelationLevel;
+    }
+
+    public boolean isNeedSketch() {
+        return isNeedSketch;
+    }
+
+    public boolean isNeedVignette() {
+        return isNeedVignette;
     }
 
     public interface BitmapListener {
@@ -305,7 +385,22 @@ public class SingleConfig {
         private int oWidth; //选择加载分辨率的宽
         private int oHeight; //选择加载分辨率的高
 
+        //滤镜
+        private boolean isNeedVignette; //是否需要晕映
+        private boolean isNeedSketch; //是否需要素描
+        private float pixelationLevel; //是否需要马赛克
+        private boolean isNeedPixelation; //是否需要马赛克
+        private boolean isNeedInvert; //是否需要胶片
+        private float contrastLevel; //是否需要墨画
+        private boolean isNeedContrast = false; //是否需要墨画
+        private boolean isNeedSepia = false; //是否需要墨画
+        private boolean isNeedToon = false; //是否需要油画
+        private boolean isNeedSwirl = false; //是否需要漩涡
+        private boolean isNeedGrayscale = false; //是否需要亮度
+        private boolean isNeedBrightness = false; //是否需要亮度
+        private float brightnessLeve; //亮度等级
         private boolean needBlur = false;//是否需要模糊
+        private boolean needFilteColor = false;//是否需要滤镜颜色
         private int blurRadius;
 
         //UI:
@@ -323,14 +418,12 @@ public class SingleConfig {
 
         private int priority; //请求优先级
 
+        private int filteColor; //滤镜颜色
+
         public int animationId; //动画资源id
         public int animationType; //动画资源Type
         public Animation animation; //动画资源
         public ViewPropertyAnimation.Animator animator; //动画资源id
-
-        private int borderWidth;//边框的宽度
-        private int borderColor;//边框颜色
-
 
         public ConfigBuilder(Context context) {
             this.context = context;
@@ -362,10 +455,11 @@ public class SingleConfig {
 
         /**
          * 缩略图
+         *
          * @param thumbnail
          * @return
          */
-        public ConfigBuilder thumbnail(float thumbnail){
+        public ConfigBuilder thumbnail(float thumbnail) {
             this.thumbnail = thumbnail;
             return this;
         }
@@ -423,6 +517,7 @@ public class SingleConfig {
 
         /**
          * 加载图片的分辨率
+         *
          * @param oWidth
          * @param oHeight
          * @return
@@ -431,7 +526,7 @@ public class SingleConfig {
             this.oWidth = MyUtil.dip2px(oWidth);
             this.oHeight = MyUtil.dip2px(oHeight);
 
-            Logger.e("width : " +oWidth  + "    oHeight : " +oHeight);
+            Logger.e("width : " + oWidth + "    oHeight : " + oHeight);
             return this;
         }
 
@@ -483,6 +578,18 @@ public class SingleConfig {
             return this;
         }
 
+
+        /**
+         * 正方形
+         *
+         * @return
+         */
+        public ConfigBuilder asSquare() {
+            this.shapeMode = ShapeMode.SQUARE;
+            return this;
+        }
+
+
         /**
          * 跳过磁盘缓存
          */
@@ -526,8 +633,68 @@ public class SingleConfig {
 
             return this;
         }
-    }
 
+        public ConfigBuilder colorFilter(int filteColor) {
+            this.filteColor = filteColor;
+            this.needFilteColor = true;
+            return this;
+        }
+
+        public ConfigBuilder brightnessFilter(float level) {
+            this.isNeedBrightness = true;
+            this.brightnessLeve = level;
+            return this;
+        }
+
+        public ConfigBuilder grayscaleFilter() {
+            this.isNeedGrayscale = true;
+            return this;
+        }
+
+        public ConfigBuilder swirlFilter() {
+            this.isNeedSwirl = true;
+            return this;
+        }
+
+        public ConfigBuilder toonFilter() {
+            this.isNeedToon = true;
+            return this;
+        }
+
+        public ConfigBuilder sepiaFilter() {
+            this.isNeedSepia = true;
+            return this;
+        }
+
+        public ConfigBuilder contrastFilter(float constrasrLevel) {
+            this.contrastLevel = constrasrLevel;
+            this.isNeedContrast = true;
+            return this;
+        }
+
+        public ConfigBuilder invertFilter() {
+            this.isNeedInvert = true;
+            return this;
+        }
+
+        public ConfigBuilder pixelationFilter(float pixelationLevel) {
+            this.pixelationLevel = pixelationLevel;
+            this.isNeedPixelation = true;
+            return this;
+        }
+
+        public ConfigBuilder sketchFilter() {
+            this.isNeedSketch = true;
+            return this;
+        }
+
+        public ConfigBuilder vignetteFilter() {
+            this.isNeedVignette = true;
+            return this;
+        }
+
+
+    }
 
 
 }

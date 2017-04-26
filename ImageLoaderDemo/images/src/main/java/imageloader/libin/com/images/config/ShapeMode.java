@@ -20,4 +20,9 @@ public interface ShapeMode {
      */
     int OVAL = 2;
 
+    /**
+     *正方形
+     */
+    int SQUARE = 3;
+
 }

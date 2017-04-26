@@ -1,7 +1,9 @@
 package imageloader.libin.com.images.loader;
 
 import android.content.Context;
+import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 
 import java.io.File;
@@ -84,5 +86,24 @@ public class ImageLoader {
         GlobalConfig.getLoader().clearAllMemoryCaches();
     }
 
+    public static void pauseRequests() {
+        getActualLoader().pause();
 
+    }
+
+    public static void resumeRequests() {
+        getActualLoader().resume();
+    }
+
+    public static void clearDiskCache() {
+        Glide.get(GlobalConfig.context).clearDiskCache();
+    }
+
+    public static void clearMomoryCache(View view) {
+        Glide.clear(view);
+    }
+
+    public static void clearMomory() {
+        Glide.get(GlobalConfig.context).clearMemory();
+    }
 }
