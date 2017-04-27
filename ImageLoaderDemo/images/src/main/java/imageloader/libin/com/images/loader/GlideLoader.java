@@ -20,7 +20,6 @@ import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -90,7 +89,6 @@ public class GlideLoader implements ILoader {
 
             if (config.getDiskCacheStrategy() != null) {
                 request.diskCacheStrategy(config.getDiskCacheStrategy());
-                Logger.e("config.getDiskCacheStrategy() :  " + config.getDiskCacheStrategy());
             }
 
             request.asBitmap().into(target);
@@ -129,13 +127,11 @@ public class GlideLoader implements ILoader {
             //设置图片加载的分辨 sp
             if (config.getoWidth() != 0 && config.getoHeight() != 0) {
                 request.override(config.getoWidth(), config.getoHeight());
-                Logger.e("设置图片加载的分辨 : " + config.getoWidth() + "   " + config.getoHeight());
             }
 
             //是否跳过磁盘存储
             if (config.getDiskCacheStrategy() != null) {
                 request.diskCacheStrategy(config.getDiskCacheStrategy());
-                Logger.e("config.getDiskCacheStrategy() :  " + config.getDiskCacheStrategy());
             }
 
             //设置图片加载动画
@@ -151,7 +147,6 @@ public class GlideLoader implements ILoader {
             if (config.getTarget() instanceof ImageView) {
                 request.into((ImageView) config.getTarget());
 
-                Logger.e("config.getTarget()" + config.getTarget().getMeasuredWidth());
             }
         }
 

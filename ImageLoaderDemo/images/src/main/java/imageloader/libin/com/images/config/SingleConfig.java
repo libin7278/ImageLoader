@@ -8,7 +8,6 @@ import android.view.animation.Animation;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.ViewPropertyAnimation;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -202,8 +201,6 @@ public class SingleConfig {
                 height = GlobalConfig.getWinHeight();
             }
         }
-        Logger.e("getHeight  :" + height);
-
         return height;
     }
 
@@ -218,7 +215,6 @@ public class SingleConfig {
             }
         }
 
-        Logger.e("getWidth  :" + width);
         return width;
     }
 
@@ -525,8 +521,6 @@ public class SingleConfig {
         public ConfigBuilder override(int oWidth, int oHeight) {
             this.oWidth = MyUtil.dip2px(oWidth);
             this.oHeight = MyUtil.dip2px(oHeight);
-
-            Logger.e("width : " + oWidth + "    oHeight : " + oHeight);
             return this;
         }
 
