@@ -5,9 +5,8 @@ import android.view.View;
 
 import com.bumptech.glide.MemoryCategory;
 
-import java.io.File;
-
 import imageloader.libin.com.images.config.SingleConfig;
+import imageloader.libin.com.images.utils.DownLoadImageService;
 
 /**
  * Created by doudou on 2017/4/10.
@@ -29,12 +28,11 @@ public interface ILoader {
 
     void clearMomory();
 
-    File getFileFromDiskCache(String url);
-
     boolean  isCached(String url);
 
     void trimMemory(int level);
 
     void clearAllMemoryCaches();
 
+    void saveImageIntoGallery(DownLoadImageService downLoadImageService);
 }

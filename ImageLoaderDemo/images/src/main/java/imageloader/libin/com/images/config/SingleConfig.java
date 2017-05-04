@@ -11,7 +11,7 @@ import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 
 import java.io.File;
 
-import imageloader.libin.com.images.utils.MyUtil;
+import imageloader.libin.com.images.utils.ImageUtil;
 
 /**
  * Created by doudou on 2017/4/10.
@@ -24,7 +24,11 @@ public class SingleConfig {
 
     private float thumbnail; //缩略图缩放倍数
     private String filePath; //文件路径
+
+    private File file; //文件路径
     private int resId;  //资源id
+    private String rawPath;  //raw路径
+    private String assertspath;  //asserts路径
     private String contentProvider; //内容提供者
     private boolean isGif; //是否是GIF图
     private View target;
@@ -66,7 +70,6 @@ public class SingleConfig {
     private int shapeMode;//默认矩形,可选直角矩形,圆形/椭圆
     private int rectRoundRadius;//圆角矩形时圆角的半径
     private DiskCacheStrategy diskCacheStrategy;//是否跳过磁盘存储
-    private int roundOverlayColor;//圆角/圆外覆盖一层背景色
     private int scaleMode;//填充模式,默认centercrop,可选fitXY,centerInside...
 
     private BitmapListener bitmapListener;
@@ -75,7 +78,10 @@ public class SingleConfig {
         this.url = builder.url;
         this.thumbnail = builder.thumbnail;
         this.filePath = builder.filePath;
+        this.file = builder.file;
         this.resId = builder.resId;
+        this.rawPath = builder.rawPath;
+        this.assertspath = builder.assertspath;
         this.contentProvider = builder.contentProvider;
 
         this.ignoreCertificateVerify = builder.ignoreCertificateVerify;
@@ -123,8 +129,6 @@ public class SingleConfig {
 
         this.asBitmap = builder.asBitmap;
         this.bitmapListener = builder.bitmapListener;
-
-        this.roundOverlayColor = builder.roundOverlayColor;
         this.isGif = builder.isGif;
         this.blurRadius = builder.blurRadius;
         this.errorResId = builder.errorResId;
@@ -159,6 +163,10 @@ public class SingleConfig {
         return filePath;
     }
 
+    public File getFile() {
+        return file;
+    }
+
     public boolean isNeedBlur() {
         return needBlur;
     }
@@ -173,6 +181,14 @@ public class SingleConfig {
 
     public int getResId() {
         return resId;
+    }
+
+    public String getRawPath() {
+        return rawPath;
+    }
+
+    public String getAssertspath() {
+        return assertspath;
     }
 
     public int getScaleMode() {
@@ -266,10 +282,6 @@ public class SingleConfig {
         return isNeedBrightness;
     }
 
-    public int getRoundOverlayColor() {
-        return roundOverlayColor;
-    }
-
     public boolean isIgnoreCertificateVerify() {
         return ignoreCertificateVerify;
     }
@@ -284,7 +296,7 @@ public class SingleConfig {
     }
 
     public void setBitmapListener(BitmapListener bitmapListener) {
-        this.bitmapListener = MyUtil.getBitmapListenerProxy(bitmapListener);
+        this.bitmapListener = ImageUtil.getBitmapListenerProxy(bitmapListener);
     }
 
     private void show() {
@@ -366,7 +378,10 @@ public class SingleConfig {
         private String url;
         private float thumbnail;
         private String filePath;
+        private File file;
         private int resId;
+        private String rawPath;
+        private String assertspath;
         private String contentProvider;
         private boolean isGif = false;
 
@@ -409,7 +424,6 @@ public class SingleConfig {
 
         private DiskCacheStrategy diskCacheStrategy;
 
-        private int roundOverlayColor;//圆角/圆外覆盖一层背景色
         private int scaleMode;//填充模式,默认centercrop,可选fitXY,centerInside...
 
         private int priority; //请求优先级
@@ -425,27 +439,8 @@ public class SingleConfig {
             this.context = context;
         }
 
-        public ConfigBuilder setRoundOverlayColor(int roundOverlayColor) {
-            this.roundOverlayColor = roundOverlayColor;
-            return this;
-        }
-
         public ConfigBuilder ignoreCertificateVerify(boolean ignoreCertificateVerify) {
             this.ignoreCertificateVerify = ignoreCertificateVerify;
-            return this;
-        }
-
-        /**
-         * 设置网络路径
-         *
-         * @param url
-         * @return
-         */
-        public ConfigBuilder url(String url) {
-            this.url = url;
-            if (url.contains("gif")) {
-                isGif = true;
-            }
             return this;
         }
 
@@ -471,9 +466,29 @@ public class SingleConfig {
             return this;
         }
 
+        /**
+         * 设置网络路径
+         *
+         * @param url
+         * @return
+         */
+        public ConfigBuilder url(String url) {
+            this.url = url;
+            if (url.contains("gif")) {
+                isGif = true;
+            }
+            return this;
+        }
+
+        /**
+         * 加载SD卡资源
+         *
+         * @param filePath
+         * @return
+         */
         public ConfigBuilder file(String filePath) {
-            if (filePath.startsWith("content:")) {
-                this.contentProvider = filePath;
+            if (filePath.startsWith("file:")) {
+                this.filePath = filePath;
                 return this;
             }
 
@@ -490,13 +505,78 @@ public class SingleConfig {
             return this;
         }
 
+        /**
+         * 加载SD卡资源
+         *
+         * @param file
+         * @return
+         */
+        public ConfigBuilder file(File file) {
+            this.file = file;
+
+            return this;
+        }
+
+        /**
+         * 加载drawable资源
+         *
+         * @param resId
+         * @return
+         */
         public ConfigBuilder res(int resId) {
             this.resId = resId;
             return this;
         }
 
+        /**
+         * 加载ContentProvider资源
+         *
+         * @param contentProvider
+         * @return
+         */
         public ConfigBuilder content(String contentProvider) {
-            this.contentProvider = contentProvider;
+            if (contentProvider.startsWith("content:")) {
+                this.contentProvider = contentProvider;
+                return this;
+            }
+
+            if (contentProvider.contains("gif")) {
+                isGif = true;
+            }
+
+            return this;
+        }
+
+        /**
+         * 加载raw资源
+         *
+         * @param rawPath
+         * @return
+         */
+        public ConfigBuilder raw(String rawPath) {
+
+            this.rawPath = rawPath;
+
+            if (rawPath.contains("gif")) {
+                isGif = true;
+            }
+
+            return this;
+        }
+
+        /**
+         * 加载asserts资源
+         *
+         * @param assertspath
+         * @return
+         */
+        public ConfigBuilder asserts(String assertspath) {
+            this.assertspath = assertspath;
+
+            if (assertspath.contains("gif")) {
+                isGif = true;
+            }
+
             return this;
         }
 
@@ -506,7 +586,7 @@ public class SingleConfig {
         }
 
         public void asBitmap(BitmapListener bitmapListener) {
-            this.bitmapListener = MyUtil.getBitmapListenerProxy(bitmapListener);
+            this.bitmapListener = ImageUtil.getBitmapListenerProxy(bitmapListener);
             this.asBitmap = true;
             new SingleConfig(this).show();
         }
@@ -519,8 +599,8 @@ public class SingleConfig {
          * @return
          */
         public ConfigBuilder override(int oWidth, int oHeight) {
-            this.oWidth = MyUtil.dip2px(oWidth);
-            this.oHeight = MyUtil.dip2px(oHeight);
+            this.oWidth = ImageUtil.dip2px(oWidth);
+            this.oHeight = ImageUtil.dip2px(oHeight);
             return this;
         }
 
@@ -549,13 +629,11 @@ public class SingleConfig {
 
         /**
          * 圆角
-         *
-         * @param overlayColorWhenGif
+
          * @return
          */
-        public ConfigBuilder asCircle(int overlayColorWhenGif) {
+        public ConfigBuilder asCircle() {
             this.shapeMode = ShapeMode.OVAL;
-            this.roundOverlayColor = overlayColorWhenGif;
             return this;
         }
 
@@ -565,10 +643,9 @@ public class SingleConfig {
          * @param rectRoundRadius
          * @return
          */
-        public ConfigBuilder rectRoundCorner(int rectRoundRadius, int overlayColorWhenGif) {
-            this.rectRoundRadius = MyUtil.dip2px(rectRoundRadius);
+        public ConfigBuilder rectRoundCorner(int rectRoundRadius) {
+            this.rectRoundRadius = ImageUtil.dip2px(rectRoundRadius);
             this.shapeMode = ShapeMode.RECT_ROUND;
-            this.roundOverlayColor = overlayColorWhenGif;
             return this;
         }
 
@@ -585,7 +662,7 @@ public class SingleConfig {
 
 
         /**
-         * 跳过磁盘缓存
+         * 磁盘缓存
          */
         public ConfigBuilder diskCacheStrategy(DiskCacheStrategy diskCacheStrategy) {
             this.diskCacheStrategy = diskCacheStrategy;

@@ -6,10 +6,9 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 
-import java.io.File;
-
 import imageloader.libin.com.images.config.GlobalConfig;
 import imageloader.libin.com.images.config.SingleConfig;
+import imageloader.libin.com.images.utils.DownLoadImageService;
 
 /**
  * Created by doudou on 2017/4/19.
@@ -63,21 +62,6 @@ public class ImageLoader {
         return new SingleConfig.ConfigBuilder(context);
     }
 
-
-    /**
-     * 图片保存到相册
-     *
-     * @param url
-     */
-    private static void saveImageIntoGallery(String url) {
-        File file = GlobalConfig.getLoader().getFileFromDiskCache(url);
-        if (file != null && file.exists()) {
-            //todo 拷贝文件到picture文件夹中
-        }
-
-    }
-
-
     public static void trimMemory(int level) {
         GlobalConfig.getLoader().trimMemory(level);
     }
@@ -105,5 +89,14 @@ public class ImageLoader {
 
     public static void clearMomory() {
         Glide.get(GlobalConfig.context).clearMemory();
+    }
+
+    /**
+     * 图片保存到相册
+     *
+     * @param downLoadImageService
+     */
+    public static void saveImageIntoGallery(DownLoadImageService downLoadImageService) {
+        getActualLoader().saveImageIntoGallery(downLoadImageService);
     }
 }

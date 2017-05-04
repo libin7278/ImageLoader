@@ -1,5 +1,6 @@
 package imageloader.libin.com.images.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
@@ -29,11 +30,15 @@ import imageloader.libin.com.images.config.GlobalConfig;
 import imageloader.libin.com.images.config.SingleConfig;
 import okhttp3.OkHttpClient;
 
+import static imageloader.libin.com.images.config.Contants.ANDROID_RESOURCE;
+import static imageloader.libin.com.images.config.Contants.FOREWARD_SLASH;
+
 /**
  * Created by doudou on 2017/4/10.
  */
 
-public class MyUtil {
+public class ImageUtil {
+
     public static SingleConfig.BitmapListener getBitmapListenerProxy(final SingleConfig.BitmapListener listener) {
         return (SingleConfig.BitmapListener) Proxy.newProxyInstance(SingleConfig.class.getClassLoader(),
                 listener.getClass().getInterfaces(), new InvocationHandler() {
@@ -180,7 +185,7 @@ public class MyUtil {
         Log.e("builduri:", "url: " + config.getUrl() + " ---filepath:" + config.getFilePath() + "--content:" + config.getContentProvider());
 
         if (!TextUtils.isEmpty(config.getUrl())) {
-            String url = MyUtil.appendUrl(config.getUrl());
+            String url = ImageUtil.appendUrl(config.getUrl());
             return Uri.parse(url);
         }
 
@@ -277,7 +282,6 @@ public class MyUtil {
             }
         };
 
-        // sslSocketFactory和hostnameVerifier代码与httpsUtil中一模一样,只有这里不一样,但下面能行,这里就不行,见鬼了
         OkHttpClient client = new OkHttpClient.Builder()
                 .sslSocketFactory(sslContext.getSocketFactory())
                 .hostnameVerifier(DO_NOT_VERIFY)
@@ -296,5 +300,9 @@ public class MyUtil {
                 .connectTimeout(30, TimeUnit.SECONDS).writeTimeout(0, TimeUnit.SECONDS) //设置超时
                 .build();
         return client;
+    }
+
+    private static Uri resourceIdToUri(Context context, int resourceId) {
+        return Uri.parse(ANDROID_RESOURCE + context.getPackageName() + FOREWARD_SLASH + resourceId);
     }
 }

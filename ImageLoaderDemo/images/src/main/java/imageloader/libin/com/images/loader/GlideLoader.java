@@ -6,6 +6,7 @@ import android.graphics.PointF;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -21,15 +22,14 @@ import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import java.io.File;
-
 import imageloader.libin.com.images.config.AnimationMode;
 import imageloader.libin.com.images.config.GlobalConfig;
 import imageloader.libin.com.images.config.PriorityMode;
 import imageloader.libin.com.images.config.ScaleMode;
 import imageloader.libin.com.images.config.ShapeMode;
 import imageloader.libin.com.images.config.SingleConfig;
-import imageloader.libin.com.images.utils.MyUtil;
+import imageloader.libin.com.images.utils.DownLoadImageService;
+import imageloader.libin.com.images.utils.ImageUtil;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.ColorFilterTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -99,7 +99,7 @@ public class GlideLoader implements ILoader {
                 return;
             }
 
-            if (MyUtil.shouldSetPlaceHolder(config)) {
+            if (ImageUtil.shouldSetPlaceHolder(config)) {
                 request.placeholder(config.getPlaceHolderResId());
             }
 
@@ -142,6 +142,10 @@ public class GlideLoader implements ILoader {
 
             if (config.getErrorResId() > 0) {
                 request.error(config.getErrorResId());
+            }
+
+            if(config.isGif()){
+                request.asGif();
             }
 
             if (config.getTarget() instanceof ImageView) {
@@ -198,13 +202,26 @@ public class GlideLoader implements ILoader {
     private DrawableTypeRequest getDrawableTypeRequest(SingleConfig config, RequestManager requestManager) {
         DrawableTypeRequest request = null;
         if (!TextUtils.isEmpty(config.getUrl())) {
-            request = requestManager.load(MyUtil.appendUrl(config.getUrl()));
+            request = requestManager.load(ImageUtil.appendUrl(config.getUrl()));
+            Log.e("TAG","getUrl : "+config.getUrl());
         } else if (!TextUtils.isEmpty(config.getFilePath())) {
-            request = requestManager.load(MyUtil.appendUrl(config.getFilePath()));
+            request = requestManager.load(ImageUtil.appendUrl(config.getFilePath()));
+            Log.e("TAG","getFilePath : "+config.getFilePath());
         } else if (!TextUtils.isEmpty(config.getContentProvider())) {
             request = requestManager.loadFromMediaStore(Uri.parse(config.getContentProvider()));
+            Log.e("TAG","getContentProvider : "+config.getContentProvider());
         } else if (config.getResId() > 0) {
             request = requestManager.load(config.getResId());
+            Log.e("TAG","getResId : "+config.getResId());
+        } else if(config.getFile() != null){
+            request = requestManager.load(config.getFile());
+            Log.e("TAG","getFile : "+config.getFile());
+        } else if(!TextUtils.isEmpty(config.getAssertspath())){
+            request = requestManager.load(config.getAssertspath());
+            Log.e("TAG","getAssertspath : "+config.getAssertspath());
+        } else if(!TextUtils.isEmpty(config.getRawPath())){
+            request = requestManager.load(config.getRawPath());
+            Log.e("TAG","getRawPath : "+config.getRawPath());
         }
         return request;
     }
@@ -307,15 +324,6 @@ public class GlideLoader implements ILoader {
 
         }
 
-//        if (transformation[0] != null && transformation[1] != null && transformation[2] != null) {
-//
-//        } else if (transformation[0] != null && transformation[1] == null) {
-//            request.bitmapTransform(transformation[0]);
-//        } else if (transformation[0] == null && transformation[1] != null) {
-//            request.bitmapTransform(transformation[1]);
-//        }else if(transformation[0] == null && transformation[1] == null && transformation[2] != null){
-//            request.bitmapTransform(transformation[2]);
-//        }
     }
 
     private int statisticsCount(SingleConfig config) {
@@ -376,65 +384,6 @@ public class GlideLoader implements ILoader {
         return count;
     }
 
-//    /**
-//     * 设置图片滤镜和形状
-//     *
-//     * @param config
-//     * @param request
-//     */
-//    private void setShapeModeAndBlur(SingleConfig config, DrawableTypeRequest request) {
-//        Transformation[] transformation = new Transformation[3];
-//        if (config.isNeedBlur()) {
-//           //transformation[0] = new BlurTransformation(config.getContext(), config.getBlurRadius());
-//            //transformation[0] = new BrightnessFilterTransformation(config.getContext(),10f); //亮度
-//            //transformation[0] =new GrayscaleTransformation(config.getContext()); //黑白效果
-//            //transformation[0] =new SwirlFilterTransformation(config.getContext(), 0.5f, 1.0f, new PointF(0.5f, 0.5f)); //漩涡
-//            //transformation[0] =new ToonFilterTransformation(config.getContext()); //油画
-//            //transformation[0] =new SepiaFilterTransformation(config.getContext()); //墨画
-//            //transformation[0] =new ContrastFilterTransformation(config.getContext(), 2.0f); //锐化
-//            //transformation[0] =new InvertFilterTransformation(config.getContext()); //胶片
-//            //transformation[0] =new PixelationFilterTransformation(config.getContext(), 20); //马赛克
-//            //transformation[0] =new SketchFilterTransformation(config.getContext()); //素描
-//            //transformation[0] =new CropTransformation(config.getContext(), 500, 500, CropTransformation.CropType.TOP);
-//            transformation[0] =new CropTransformation(config.getContext(), 2000, 2000 , CropTransformation.CropType.CENTER);
-////            transformation[0] =new VignetteFilterTransformation(config.getContext(), new PointF(0.5f, 0.5f),
-////                    new float[] { 0.0f, 0.0f, 0.0f }, 0f, 0.75f);//晕映
-//
-//        }
-//
-//        if(config.isNeedFilteColor()){
-//            transformation[2] = new ColorFilterTransformation(config.getContext(), config.getFilteColor());
-//        }
-//
-//        switch (config.getShapeMode()) {
-//            case ShapeMode.RECT:
-//
-//                break;
-//            case ShapeMode.RECT_ROUND:
-//                transformation[1] = new RoundedCornersTransformation
-//                        (config.getContext(), config.getRectRoundRadius(), 0, RoundedCornersTransformation.CornerType.ALL);
-//
-//                break;
-//            case ShapeMode.OVAL:
-//                transformation[1] = new CropCircleTransformation(config.getContext());
-//                break;
-//
-//            case ShapeMode.SQUARE:
-//                transformation[1] = new CropSquareTransformation(config.getContext());
-//                break;
-//        }
-//
-//        if (transformation[0] != null && transformation[1] != null && transformation[2] != null) {
-//            request.bitmapTransform(transformation);
-//        } else if (transformation[0] != null && transformation[1] == null) {
-//            request.bitmapTransform(transformation[0]);
-//        } else if (transformation[0] == null && transformation[1] != null) {
-//            request.bitmapTransform(transformation[1]);
-//        }else if(transformation[0] == null && transformation[1] == null && transformation[2] != null){
-//            request.bitmapTransform(transformation[2]);
-//        }
-//    }
-
     @Override
     public void pause() {
         Glide.with(GlobalConfig.context).pauseRequestsRecursive();
@@ -462,11 +411,6 @@ public class GlideLoader implements ILoader {
     }
 
     @Override
-    public File getFileFromDiskCache(String url) {
-        return null;
-    }
-
-    @Override
     public boolean isCached(String url) {
         return false;
     }
@@ -480,4 +424,10 @@ public class GlideLoader implements ILoader {
     public void clearAllMemoryCaches() {
         Glide.with(GlobalConfig.context).onLowMemory();
     }
+
+    @Override
+    public void saveImageIntoGallery(DownLoadImageService downLoadImageService) {
+        new Thread(downLoadImageService).start();
+    }
+
 }

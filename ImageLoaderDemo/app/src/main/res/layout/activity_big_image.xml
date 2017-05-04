@@ -5,13 +5,4 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <ImageView
-        android:id="@+id/iv_round"
-        android:layout_width="100dp"
-        android:layout_height="150dp" />
-
-    <ImageView
-        android:id="@+id/iv_circle"
-        android:layout_width="100dp"
-        android:layout_height="150dp" />
 </LinearLayout>
