@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ImageLoader</string>
+    <string name="image_base">基本功能使用</string>
 </resources>

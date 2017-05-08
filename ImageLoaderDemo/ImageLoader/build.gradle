@@ -42,7 +42,7 @@ group = "com.libin.imageloader"            // Maven Group ID for the artifact，
 //发布到JCenter上的项目名字，必须填写
 def libName = "AndroidFastDevFrame"
 // 版本号，下次更新是只需要更改版本号即可
-version = "1.0.1"
+version = "1.0.3"
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
@@ -55,7 +55,7 @@ install {
                 // Set your license
                 licenses {
                     license {
-                        name '图片加载集成glide 并添加多种滤镜'
+                        name '图片加载集成glide 并添加多种滤镜，本地多边形图片加载'
                         url 'https://github.com/libin7278/ImageLoader'
                     }
                 }

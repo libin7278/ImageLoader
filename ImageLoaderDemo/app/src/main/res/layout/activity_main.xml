@@ -17,7 +17,7 @@
         android:layout_height="70dp" />
 
     <Button
-        android:text="圆角／圆形"
+        android:text="@string/image_base"
         android:id="@+id/btn_round"
         android:layout_width="match_parent"
         android:layout_height="70dp" />

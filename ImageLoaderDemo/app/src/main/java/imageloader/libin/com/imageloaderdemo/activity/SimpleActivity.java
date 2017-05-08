@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 
@@ -27,7 +28,6 @@ import imageloader.libin.com.images.utils.DownLoadImageService;
 import static imageloader.libin.com.imageloaderdemo.config.imageconfig.IMG_NAME;
 import static imageloader.libin.com.imageloaderdemo.config.imageconfig.IMG_NAME_C;
 import static imageloader.libin.com.imageloaderdemo.config.imageconfig.URL1;
-import static imageloader.libin.com.imageloaderdemo.config.imageconfig.URL2;
 import static imageloader.libin.com.imageloaderdemo.config.imageconfig.URL3;
 import static imageloader.libin.com.imageloaderdemo.config.imageconfig.URL4;
 import static imageloader.libin.com.imageloaderdemo.config.imageconfig.URL5;
@@ -109,15 +109,19 @@ public class SimpleActivity extends AppCompatActivity {
                 .scale(ScaleMode.FIT_CENTER)
                 .into(iv_test2);
 
-        ImageLoader.with(this)
-                .url(URL2)
-                .placeHolder(R.mipmap.ic_launcher)
-                .scale(ScaleMode.FIT_CENTER)
+//        ImageLoader.with(this)
+//                .url(URL2)
+//                .placeHolder(R.mipmap.ic_launcher)
+//                .scale(ScaleMode.FIT_CENTER)
+//                .into(iv_test3);
+
+        Glide.with(this).load(URL4).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(iv_test3);
 
         ImageLoader.with(this)
                 .url(URL4)
                 .placeHolder(R.mipmap.ic_launcher)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .scale(ScaleMode.FIT_CENTER)
                 .into(iv_test4);
 
