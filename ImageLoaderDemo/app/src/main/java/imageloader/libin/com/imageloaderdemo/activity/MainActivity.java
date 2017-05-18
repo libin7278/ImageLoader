@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
     Button btn_viewpager ;
     Button btn_round ;
 
+    static {
+        System.loadLibrary("native-lib");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,4 +80,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"图片存储失败",Toast.LENGTH_SHORT).show();
         }
     }
+
+    public native String stringFromJNI();
 }
