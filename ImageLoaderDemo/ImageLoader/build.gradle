@@ -95,7 +95,7 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
     user = "libin7278jc"
-    key = "3e1fb10e4e7d850e068ea5fee9acc72316a8f121"
+    key = "3e1fb10e4e7d850e068********16a8f121"
     configurations = ['archives']
     pkg {
         userOrg="jasonp"
