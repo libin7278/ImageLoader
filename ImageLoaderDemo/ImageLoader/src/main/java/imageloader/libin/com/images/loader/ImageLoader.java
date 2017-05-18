@@ -63,11 +63,11 @@ public class ImageLoader {
     }
 
     public static void trimMemory(int level) {
-        GlobalConfig.getLoader().trimMemory(level);
+        getActualLoader().trimMemory(level);
     }
 
     public static void clearAllMemoryCaches() {
-        GlobalConfig.getLoader().clearAllMemoryCaches();
+        getActualLoader().clearAllMemoryCaches();
     }
 
     public static void pauseRequests() {
@@ -79,16 +79,31 @@ public class ImageLoader {
         getActualLoader().resume();
     }
 
-    public static void clearDiskCache() {
-        Glide.get(GlobalConfig.context).clearDiskCache();
-    }
-
+    /**
+     *Cancel any pending loads Glide may have for the view and free any resources that may have been loaded for the view.
+     * @param view
+     */
     public static void clearMomoryCache(View view) {
-        Glide.clear(view);
+        getActualLoader().clearMomoryCache(view);
     }
 
+
+    /**
+     * Clears disk cache.
+     *
+     * <p>
+     *     This method should always be called on a background thread, since it is a blocking call.
+     * </p>
+     */
+    public static void clearDiskCache() {
+        getActualLoader().clearDiskCache();
+    }
+
+    /**
+     * Clears as much memory as possible.
+     */
     public static void clearMomory() {
-        Glide.get(GlobalConfig.context).clearMemory();
+        getActualLoader().clearMomory();
     }
 
     /**
