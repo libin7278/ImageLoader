@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 
+import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 
@@ -70,6 +71,8 @@ public class SingleConfig {
     private int shapeMode;//默认矩形,可选直角矩形,圆形/椭圆
     private int rectRoundRadius;//圆角矩形时圆角的半径
     private DiskCacheStrategy diskCacheStrategy;//是否跳过磁盘存储
+    private boolean isSkipMemoryCache;//是否跳过内存缓存
+    private Key signature;
     private int scaleMode;//填充模式,默认centercrop,可选fitXY,centerInside...
 
     private BitmapListener bitmapListener;
@@ -101,6 +104,8 @@ public class SingleConfig {
         this.scaleMode = builder.scaleMode;
 
         this.diskCacheStrategy = builder.diskCacheStrategy;
+        this.isSkipMemoryCache = builder.skipMemoryCache;
+        this.signature = builder.signature;
 
         this.animationId = builder.animationId;
         this.animationType = builder.animationType;
@@ -351,6 +356,22 @@ public class SingleConfig {
         return isNeedVignette;
     }
 
+    public boolean isSkipMemoryCache() {
+        return isSkipMemoryCache;
+    }
+
+    public void setSkipMemoryCache(boolean skipMemoryCache) {
+        isSkipMemoryCache = skipMemoryCache;
+    }
+
+    public Key getSignature() {
+        return signature;
+    }
+
+    public void setSignature(Key signature) {
+        this.signature = signature;
+    }
+
     public interface BitmapListener {
         void onSuccess(Bitmap bitmap);
 
@@ -423,6 +444,8 @@ public class SingleConfig {
         private int rectRoundRadius;//圆角矩形时圆角的半径
 
         private DiskCacheStrategy diskCacheStrategy;
+        private boolean skipMemoryCache;
+        private Key signature;
 
         private int scaleMode;//填充模式,默认centercrop,可选fitXY,centerInside...
 
@@ -666,6 +689,26 @@ public class SingleConfig {
          */
         public ConfigBuilder diskCacheStrategy(DiskCacheStrategy diskCacheStrategy) {
             this.diskCacheStrategy = diskCacheStrategy;
+            return this;
+        }
+
+        /**
+         * 内存缓存
+         * @param isSkipMemoryCache
+         * @return
+         */
+        public ConfigBuilder skipMemoryCache(boolean isSkipMemoryCache){
+            this.skipMemoryCache = isSkipMemoryCache;
+            return this;
+        }
+
+        /**
+         * 图片签名
+         * @param signature
+         * @return
+         */
+        public ConfigBuilder signature(Key signature){
+            this.signature = signature;
             return this;
         }
 
