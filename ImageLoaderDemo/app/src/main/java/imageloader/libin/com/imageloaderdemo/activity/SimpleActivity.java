@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.ViewPropertyAnimation;
+import com.bumptech.glide.signature.StringSignature;
 
 import java.io.File;
 
@@ -96,8 +97,11 @@ public class SimpleActivity extends AppCompatActivity {
             }
         };
 
+        //TODO--修改图片签名，和跳过内存缓存
         ImageLoader.with(this)
                 .url(URL1)
+                .signature(new StringSignature(System.currentTimeMillis()+""))
+                .skipMemoryCache(true)
                 .animate(animationObject)
                 .placeHolder(R.mipmap.ic_launcher)
                 .scale(ScaleMode.CENTER_CROP)

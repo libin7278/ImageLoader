@@ -134,6 +134,16 @@ public class GlideLoader implements ILoader {
                 request.diskCacheStrategy(config.getDiskCacheStrategy());
             }
 
+            //是否跳过内存缓存
+            if(config.isSkipMemoryCache()){
+                request.skipMemoryCache(config.isSkipMemoryCache());
+            }
+
+            //添加图片签名
+            if(config.getSignature()!=null){
+                request.signature(config.getSignature());
+            }
+
             //设置图片加载动画
             setAnimator(config, request);
 
